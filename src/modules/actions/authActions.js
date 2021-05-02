@@ -5,7 +5,7 @@ import moment from "moment";
 export const loginByPlatform = async (code, platform, dispatch) => {
   const options = {
     method: "POST",
-    url: `http://localhost:5000/auth/${platform}/login/callback`,
+    url: `/auth/${platform}/login/callback`,
     params: { code },
   };
   try {
@@ -13,7 +13,9 @@ export const loginByPlatform = async (code, platform, dispatch) => {
     const { accessToken } = response.data;
     const payload = jwt.verify(accessToken, process.env.REACT_APP_JWT_SECRET);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-    dispatch({ type: "LOGIN_SUCCESS", payload });
+    console.log("loginByPlatform", accessToken);
+
+    dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
   } catch (error) {
     //verify실패
     //서버 에러
@@ -25,11 +27,13 @@ export const loginByPlatform = async (code, platform, dispatch) => {
 export const getPlatformToken = async (code, platform, dispatch) => {
   const options = {
     method: "POST",
-    url: `http://localhost:5000/auth/${platform}/token/callback`,
+    url: `/auth/${platform}/token/callback`,
     params: { code },
   };
   try {
     await axios(options);
+    console.log("getPlatformToken");
+
     dispatch({ type: "TOKEN_SUCCESS" });
   } catch (error) {
     dispatch({ type: "TOKEN_FAIL", message: error.data.message });
@@ -39,25 +43,29 @@ export const getPlatformToken = async (code, platform, dispatch) => {
 export const loginByToken = async (dispatch) => {
   const options = {
     method: "POST",
-    url: `http://localhost:5000/auth/login`,
+    url: `/auth/login`,
   };
   try {
     const response = await axios(options);
     const { accessToken } = response.data;
     const payload = jwt.verify(accessToken, process.env.REACT_APP_JWT_SECRET);
+    console.log("loginByToken", accessToken);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
-    dispatch({ type: "LOGIN_SUCCESS", payload });
+    dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
   } catch (error) {
-    dispatch({ type: "LOGIN_FAIL", message: error.data.message });
+    // dispatch({ type: "LOGIN_FAIL", message: error.data.message });
+    console.log(error);
+    dispatch({ type: "LOGIN_FAIL", message: error.data });
   }
 };
 
 export const refreshTokenSilent = async (expiresIn, dispatch) => {
   const options = {
     method: "POST",
-    url: `http://localhost:5000/auth/refresh`,
+    url: `/auth/refresh`,
   };
+  console.log("refreshSilent");
   const interval = setInterval(async () => {
     try {
       console.log("exp", expiresIn);
@@ -65,8 +73,9 @@ export const refreshTokenSilent = async (expiresIn, dispatch) => {
       const { accessToken } = response.data;
       const payload = jwt.verify(accessToken, process.env.REACT_APP_JWT_SECRET);
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      console.log("refreshTokenSilent", accessToken);
 
-      dispatch({ type: "LOGIN_SUCCESS", payload });
+      dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
     } catch (error) {
       console.log(error);
       dispatch({ type: "LOGIN_FAIL", message: error.data.message });
