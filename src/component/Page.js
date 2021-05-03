@@ -2,18 +2,20 @@ import React from "react";
 import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 import Main from "./Main";
-import Board from "./Board";
+import PlaylistBoard from "./PlaylistBoard";
+import TrackBoard from "./TrackBoard";
 
 export default React.memo(function Page() {
   return (
     <Router>
       <Link to="/">Main</Link>
-      <Link to="/board">Board</Link>
+      <Link to="/board">PlaylistBoard</Link>
 
       <Route exact path="/" render={() => <Main />} />
       <Switch>
-        <Route path="/board/:id" render={() => <Board />} />
-        <Route exact path="/board" render={() => <Board />} />
+        <Route path="/board/:id" render={() => <PlaylistBoard />} />
+        <Route exact path="/board" render={() => <PlaylistBoard />} />
+        <Route path="/track/:id" render={() => <TrackBoard />} />
       </Switch>
     </Router>
   );
