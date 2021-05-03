@@ -5,7 +5,7 @@ import { getTracks, likePlaylist } from "../modules/actions";
 import { getLibrary } from "../modules/actions/userAction";
 import { Context } from "../context";
 
-function Track({ track }) {
+function Board({ track }) {
   return (
     <div>
       <div>title - {track.title}</div>
@@ -15,7 +15,7 @@ function Track({ track }) {
   );
 }
 
-export default function TrackBoard() {
+export default function Track() {
   const [playlist, setPlaylist] = useState();
   const [tracks, setTracks] = useState([]);
   const [like, setLike] = useState();
@@ -63,7 +63,7 @@ export default function TrackBoard() {
       <div>uploader - {playlist.owner.nick}</div>
       <button onClick={onLike}>{like ? "unlike" : "like"}</button>
       {tracks.map((track) => (
-        <Track key={track.id} track={track} />
+        <Board key={track.id} track={track} />
       ))}
     </div>
   );

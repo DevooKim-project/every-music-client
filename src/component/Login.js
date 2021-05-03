@@ -32,7 +32,7 @@ function Login() {
   useEffect(() => {
     if (code) {
       loginByPlatform(code, platform, dispatch);
-      window.history.pushState({}, null, `/#`);
+      window.history.pushState({}, null, `/`);
     }
   }, [code]);
 

@@ -6,9 +6,9 @@ import { getPlaylistBoard, getPlaylistBoardByUser, likePlaylist } from "../modul
 import { Context } from "../context";
 
 import "./Board.css";
-import TrackBoard from "./TrackBoard";
+import TrackBoard from "./Track";
 
-const Playlist = React.memo(function Playlist({ playlist }) {
+const Board = React.memo(function Board({ playlist }) {
   return (
     <div owner={playlist.owner}>
       <Link to={`/track/${playlist.id}`}>
@@ -27,7 +27,7 @@ const Playlist = React.memo(function Playlist({ playlist }) {
   );
 });
 
-export default React.memo(function PlaylistBoard() {
+export default React.memo(function Playlist() {
   const [playlists, setPlaylists] = useState([]);
   const {
     state: { isLoggedIn },
@@ -55,7 +55,7 @@ export default React.memo(function PlaylistBoard() {
     <div>
       <h1>This is Board</h1>
       {playlists.map((playlist) => (
-        <Playlist key={playlist.id} playlist={playlist} />
+        <Board key={playlist.id} playlist={playlist} />
       ))}
     </div>
   );

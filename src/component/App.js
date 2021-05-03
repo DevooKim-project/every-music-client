@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import Cookie from "js-cookie";
 
 import { loginByToken } from "../modules/actions";
@@ -25,10 +26,12 @@ function App() {
 
   return (
     <div>
-      <Header />
-      <Page />
-      <Sidebar />
-      <Footer />
+      <Router>
+        <Header />
+        <Page />
+        <Sidebar />
+        <Footer />
+      </Router>
     </div>
   );
 }
