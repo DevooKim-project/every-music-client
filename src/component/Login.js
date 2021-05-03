@@ -21,17 +21,18 @@ function Login() {
   const [refreshToken, setRefreshToken] = useState(Cookie.get("refreshToken"));
   const { dispatch } = useContext(Context);
 
-  useEffect(() => {
-    if (refreshToken) {
-      loginByToken(dispatch);
-      window.history.pushState({}, null, `/`);
-    }
-  }, [refreshToken]);
+  // useEffect(() => {
+  //   if (refreshToken) {
+  //     loginByToken(dispatch);
+  //     // window.history.pushState({}, null, `/`);
+  //     window.history.go(1);
+  //   }
+  // }, [refreshToken]);
 
   useEffect(() => {
     if (code) {
       loginByPlatform(code, platform, dispatch);
-      window.history.pushState({}, null, `/#${platform}`);
+      window.history.pushState({}, null, `/#`);
     }
   }, [code]);
 

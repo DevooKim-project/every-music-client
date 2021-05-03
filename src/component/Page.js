@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 import Main from "./Main";
@@ -11,8 +11,8 @@ export default React.memo(function Page() {
       <Link to="/">Main</Link>
       <Link to="/board">PlaylistBoard</Link>
 
-      <Route exact path="/" render={() => <Main />} />
       <Switch>
+        <Route exact path="/" render={() => <Main />} />
         <Route path="/board/:id" render={() => <PlaylistBoard />} />
         <Route exact path="/board" render={() => <PlaylistBoard />} />
         <Route path="/track/:id" render={() => <TrackBoard />} />

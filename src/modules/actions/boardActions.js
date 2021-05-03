@@ -29,3 +29,17 @@ export const getPlaylistBoardByUser = async (userId, page = 0, limit = 10) => {
     console.log(error);
   }
 };
+
+export const likePlaylist = async (playlistId, state) => {
+  const options = {
+    method: "PUT",
+    url: `/playlist/like/${playlistId}/${state}`,
+  };
+  try {
+    const response = await axios(options); //NO_CONTENT
+    console.log("likePlaylist");
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
