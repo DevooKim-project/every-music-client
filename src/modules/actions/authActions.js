@@ -36,7 +36,9 @@ export const getPlatformToken = async (code, platform, dispatch) => {
 
     dispatch({ type: "TOKEN_SUCCESS" });
   } catch (error) {
-    dispatch({ type: "TOKEN_FAIL", message: error.data.message });
+    // dispatch({ type: "TOKEN_FAIL", message: error.data.message });
+    console.log(error);
+    dispatch({ type: "TOKEN_FAIL", message: error });
   }
 };
 
@@ -77,7 +79,9 @@ export const refreshTokenSilent = async (expiresIn, dispatch) => {
       dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
     } catch (error) {
       console.log(error);
-      dispatch({ type: "LOGIN_FAIL", message: error.data.message });
+      // dispatch({ type: "LOGIN_FAIL", message: error.data.message });
+      console.log(error);
+      dispatch({ type: "LOGIN_FAIL", message: error.data });
     }
   }, (expiresIn - moment().unix()) * 1000);
 
