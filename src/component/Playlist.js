@@ -29,13 +29,10 @@ const Board = React.memo(function Board({ playlist }) {
 
 export default React.memo(function Playlist() {
   const [playlists, setPlaylists] = useState([]);
-  const {
-    state: { isLoggedIn },
-  } = useContext(Context);
   const { id } = useParams();
 
   useLayoutEffect(() => {
-    if (id && isLoggedIn) {
+    if (id) {
       getPlaylistBoardByUser(id).then((response) => {
         setPlaylists(response.results);
       });
@@ -44,7 +41,7 @@ export default React.memo(function Playlist() {
         setPlaylists(response.results);
       });
     }
-  }, [id, isLoggedIn]);
+  }, [id]);
 
   //데이터가 존재하지 않을경우 별도 처리
   if (!playlists) {

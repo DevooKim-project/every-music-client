@@ -14,7 +14,10 @@ import Footer from "./Footer";
 
 function App() {
   const [refreshToken, setRefreshToken] = useState(Cookie.get("refreshToken"));
-  const { dispatch } = useContext(Context);
+  const {
+    state: { isLoggedIn },
+    dispatch,
+  } = useContext(Context);
 
   config();
 
@@ -23,6 +26,11 @@ function App() {
       loginByToken(dispatch);
     }
   }, []);
+
+  if (refreshToken && !isLoggedIn) {
+    console.log("로그인 중");
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

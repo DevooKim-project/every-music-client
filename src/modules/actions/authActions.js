@@ -51,7 +51,6 @@ export const loginByToken = async (dispatch) => {
     const payload = jwt.verify(accessToken, process.env.REACT_APP_JWT_SECRET);
     console.log("loginByToken", accessToken);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-
     dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
   } catch (error) {
     // dispatch({ type: "LOGIN_FAIL", message: error.data.message });

@@ -3,8 +3,7 @@ import axios from "axios";
 export const getPlaylistBoard = async (page = 0, limit = 10) => {
   const options = {
     method: "GET",
-    url: "/playlist",
-    data: { page, limit },
+    url: `/playlist?page=${page}&limit=${limit}`,
   };
   try {
     const response = await axios(options);
@@ -18,8 +17,7 @@ export const getPlaylistBoard = async (page = 0, limit = 10) => {
 export const getPlaylistBoardByUser = async (userId, page = 0, limit = 10) => {
   const options = {
     method: "GET",
-    url: `/playlist/${userId}`,
-    data: { page, limit },
+    url: `/playlist/${userId}?page=${page}&limit=${limit}`,
   };
   try {
     const response = await axios(options);
@@ -39,6 +37,21 @@ export const likePlaylist = async (playlistId, state) => {
     const response = await axios(options); //NO_CONTENT
     console.log("likePlaylist");
     return;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updatePlaylistOptions = async (playlist) => {
+  const options = {
+    method: "PUT",
+    url: `/playlist/${playlist.id}`,
+    data: { ...playlist },
+  };
+  try {
+    const response = await axios(options);
+    console.log("updatePlaylistOptions", response.data);
+    return response.data;
   } catch (error) {
     console.log(error);
   }
