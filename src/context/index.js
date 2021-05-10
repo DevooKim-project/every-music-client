@@ -2,6 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const initialState = {
   isLoggedIn: false,
+  tokenPlatform: null,
   payload: null,
   accessToken: null,
   error: false,
@@ -14,6 +15,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
       return {
+        ...state,
         isLoggedIn: true,
         payload: action.payload,
         accessToken: action.accessToken,
@@ -21,12 +23,14 @@ const reducer = (state, action) => {
 
     case "TOKEN_SUCCESS":
       return {
-        isLoggedIn: true,
+        ...state,
+        tokenPlatform: action.platform,
       };
 
     case "LOGIN_FAIL":
     case "TOKEN_FAIL":
       return {
+        ...state,
         isLoggedIn: false,
         error: true,
         message: action.message,

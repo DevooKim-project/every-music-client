@@ -1,8 +1,7 @@
 import qs from "qs";
 
-const GoogleAuthParams = () => {
+const GoogleAuthParams = (redirectUri, type) => {
   const url = "https://accounts.google.com/o/oauth2/v2/auth";
-  const redirectUri = "http://localhost:3000/?platform=google";
   const scopes = [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
@@ -14,7 +13,7 @@ const GoogleAuthParams = () => {
 
   const params = {
     client_id: process.env.REACT_APP_GOOGLE_ID,
-    redirect_uri: redirectUri,
+    redirect_uri: `${redirectUri}/?platform=google&type=${type}`,
     response_type: "code",
     scope: scopes.join(" "),
   };
@@ -23,16 +22,19 @@ const GoogleAuthParams = () => {
   return oAuthUri;
 };
 
-const SpotifyAuthParams = () => {
-  const scopes = ["user-read-email", "playlist-modify-public", "playlist-modify-private", "playlist-read-private"];
-  const redirectUri = "http://localhost:3000/?platform=spotify";
-
+const SpotifyAuthParams = (redirectUri, type) => {
   const url = "https://accounts.spotify.com/authorize";
+  const scopes = [
+    "user-read-email",
+    "playlist-modify-public",
+    "playlist-modify-private",
+    "playlist-read-private",
+  ];
 
   const params = {
     response_type: "code",
     client_id: process.env.REACT_APP_SPOTIFY_ID,
-    redirect_uri: redirectUri,
+    redirect_uri: `${redirectUri}/?platform=spotify&type=${type}`,
     scope: scopes.join(" "),
   };
 
@@ -40,15 +42,13 @@ const SpotifyAuthParams = () => {
   return oAuthUri;
 };
 
-const KakaoAuthParams = () => {
-  const scopes = ["account_email", "profile"];
-  const redirectUri = "http://localhost:3000/?platform=kakao";
-
+const KakaoAuthParams = (redirectUri, type) => {
   const url = "https://kauth.kakao.com/oauth/authorize";
+  const scopes = ["account_email", "profile"];
 
   const params = {
     client_id: process.env.REACT_APP_KAKAO_ID,
-    redirect_uri: redirectUri,
+    redirect_uri: `${redirectUri}/?platform=kakao&type=${type}`,
     response_type: "code",
     scope: scopes.join(","),
     // state: "", //CSRF 공격 보호를 위한 임의의 문자열
@@ -58,14 +58,15 @@ const KakaoAuthParams = () => {
   return oAuthUri;
 };
 
-export const authUri = (platform) => {
+export const authUri = (platform, redirectUri, type) => {
+  type = type.toLowerCase();
   switch (platform) {
     case "google":
-      return GoogleAuthParams();
+      return GoogleAuthParams(redirectUri, type);
     case "spotify":
-      return SpotifyAuthParams();
+      return SpotifyAuthParams(redirectUri, type);
     case "kakao":
-      return KakaoAuthParams();
+      return KakaoAuthParams(redirectUri, type);
 
     default:
       return "ERROR";

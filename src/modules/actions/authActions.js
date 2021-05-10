@@ -2,11 +2,13 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import moment from "moment";
 
-export const loginByPlatform = async (code, platform, dispatch) => {
+export const loginByPlatform = async (params, dispatch) => {
+  const { code, type, platform } = params;
+
   const options = {
     method: "POST",
-    url: `/auth/${platform}/login/callback`,
-    params: { code },
+    url: `/auth/${platform}/login`,
+    params: { code, type },
   };
   try {
     const response = await axios(options);
@@ -24,22 +26,71 @@ export const loginByPlatform = async (code, platform, dispatch) => {
   }
 };
 
-export const getPlatformToken = async (code, platform, dispatch) => {
+export const getPlatformToken = async (params, dispatch) => {
+  const { code, type, platform } = params;
+
   const options = {
     method: "POST",
-    url: `/auth/${platform}/token/callback`,
-    params: { code },
+    url: `/auth/${platform}/token`,
+    params: { code, type },
   };
   try {
     await axios(options);
     console.log("getPlatformToken");
 
-    dispatch({ type: "TOKEN_SUCCESS" });
+    dispatch({ type: "TOKEN_SUCCESS", platform });
   } catch (error) {
     // dispatch({ type: "TOKEN_FAIL", message: error.data.message });
     console.log(error);
     dispatch({ type: "TOKEN_FAIL", message: error });
   }
+};
+
+export const hasPlatformToken = async (platform) => {
+  const options = {
+    method: "GET",
+    url: `/auth/${platform}`,
+  };
+
+  try {
+    console.log("hasPlatformToken");
+    const response = await axios(options);
+    const { platformToken } = response.data;
+    return platformToken;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const hasPlatformTokenInterval = async (platform) => {
+  const asyncPromise = new Promise((resolve, reject) => {
+    let count = 0;
+    const interval = setInterval(async () => {
+      try {
+        console.log("hasPlatformTokenInterval");
+        const value = await hasPlatformToken(platform);
+
+        if (value) {
+          resolve(value);
+          clearInterval(interval);
+        }
+
+        if (count >= 10) {
+          resolve(value);
+          clearInterval(interval);
+        }
+        count += 1;
+      } catch (error) {
+        console.log(error);
+        resolve(false);
+        clearInterval(interval);
+      }
+    }, 1000);
+  });
+
+  const result = await asyncPromise;
+  return result;
 };
 
 export const loginByToken = async (dispatch) => {
@@ -83,7 +134,7 @@ export const refreshTokenSilent = async (expiresIn, dispatch) => {
       console.log(error);
       dispatch({ type: "LOGIN_FAIL", message: error.data });
     }
-  }, (expiresIn - moment().unix()) * 1000);
+  }, (expiresIn - moment().unix() - 60) * 1000);
 
   return () => clearInterval(interval);
 };
