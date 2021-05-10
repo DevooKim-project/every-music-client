@@ -1,9 +1,11 @@
 import axios from "axios";
 
-export const getPlaylistBoard = async (page = 0, limit = 10) => {
+//limit이 1미만이면 모든 도큐먼트를 요청한다.
+export const getPlaylistBoard = async (page = 0, limit = 0) => {
   const options = {
     method: "GET",
-    url: `/playlist?page=${page}&limit=${limit}`,
+    url: `/playlist`,
+    params: { page, limit },
   };
   try {
     const response = await axios(options);
@@ -14,10 +16,12 @@ export const getPlaylistBoard = async (page = 0, limit = 10) => {
   }
 };
 
-export const getPlaylistBoardByUser = async (userId, page = 0, limit = 10) => {
+//limit이 1미만이면 모든 도큐먼트를 요청한다.
+export const getPlaylistBoardByUser = async (userId, page = 0, limit = 0) => {
   const options = {
     method: "GET",
-    url: `/playlist/${userId}?page=${page}&limit=${limit}`,
+    url: `/playlist/${userId}`,
+    params: { page, limit },
   };
   try {
     const response = await axios(options);
@@ -51,6 +55,23 @@ export const updatePlaylistOptions = async (playlist) => {
   try {
     const response = await axios(options);
     console.log("updatePlaylistOptions", response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const uploadPlaylist = async (playlists, tracks) => {
+  const options = {
+    method: "POST",
+    url: `/playlist/upload`,
+    data: { playlists, tracks },
+  };
+
+  try {
+    const response = await axios(options);
+    console.log("uploadPlaylist", response.data);
+    return true;
     return response.data;
   } catch (error) {
     console.log(error);
