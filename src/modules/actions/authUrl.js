@@ -15,6 +15,7 @@ const GoogleAuthParams = (redirectUri, type) => {
     client_id: process.env.REACT_APP_GOOGLE_ID,
     redirect_uri: `${redirectUri}/?platform=google&type=${type}`,
     response_type: "code",
+    access_type: "offline",
     scope: scopes.join(" "),
   };
 
