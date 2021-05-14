@@ -26,7 +26,7 @@ export const loginByPlatform = async (params, dispatch) => {
   }
 };
 
-export const getPlatformToken = async (params, dispatch) => {
+export const generatePlatformToken = async (params, dispatch) => {
   const { code, type, platform } = params;
 
   const options = {
@@ -36,7 +36,7 @@ export const getPlatformToken = async (params, dispatch) => {
   };
   try {
     await axios(options);
-    console.log("getPlatformToken");
+    console.log("generatePlatformToken");
 
     dispatch({ type: "TOKEN_SUCCESS", platform });
   } catch (error) {
@@ -46,51 +46,45 @@ export const getPlatformToken = async (params, dispatch) => {
   }
 };
 
-export const hasPlatformToken = async (platform) => {
+export const getPlatformToken = async (platform) => {
   const options = {
     method: "GET",
     url: `/auth/${platform}`,
   };
 
   try {
-    console.log("hasPlatformToken");
+    console.log("getPlatformToken");
     const response = await axios(options);
-    const { platformToken } = response.data;
-    return platformToken;
+    const { accessToken, refreshToken } = response.data;
+    let state;
+    if (!accessToken && !refreshToken) {
+      state = "REQUIRED_OAUTH";
+    } else if (!accessToken && refreshToken) {
+      state = "REQUIRED_REFRESH_ACCESS_TOKEN";
+    } else {
+      state = "NOT_REQUIRED";
+    }
+    return state;
   } catch (error) {
     console.log(error);
     return false;
   }
 };
 
-export const hasPlatformTokenInterval = async (platform) => {
-  const asyncPromise = new Promise((resolve, reject) => {
-    let count = 0;
-    const interval = setInterval(async () => {
-      try {
-        console.log("hasPlatformTokenInterval");
-        const value = await hasPlatformToken(platform);
-
-        if (value) {
-          resolve(value);
-          clearInterval(interval);
-        }
-
-        if (count >= 10) {
-          resolve(value);
-          clearInterval(interval);
-        }
-        count += 1;
-      } catch (error) {
-        console.log(error);
-        resolve(false);
-        clearInterval(interval);
-      }
-    }, 1000);
-  });
-
-  const result = await asyncPromise;
-  return result;
+export const refreshAccessToken = async (platform, dispatch) => {
+  const options = {
+    method: "POST",
+    url: `/auth/${platform}/refresh`,
+  };
+  try {
+    console.log("refreshAccessToken");
+    await axios(options);
+    dispatch({ type: "TOKEN_SUCCESS", platform });
+  } catch (error) {
+    // dispatch({ type: "TOKEN_FAIL", message: error.data.message });
+    console.log(error);
+    dispatch({ type: "TOKEN_FAIL", message: error });
+  }
 };
 
 export const loginByToken = async (dispatch) => {

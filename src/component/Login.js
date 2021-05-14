@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 
 import { Context } from "../context";
-import { getPlatformToken, loginByPlatform, loginByToken } from "../modules/actions";
+import { generatePlatformToken, loginByPlatform, loginByToken } from "../modules/actions";
 import { authUri } from "../modules/actions";
 
 function Auth({ platform }) {
@@ -32,7 +32,7 @@ function Login({ platforms }) {
         window.history.pushState({}, null, `/`);
       }
       if (type === "token") {
-        getPlatformToken({ code, type: type, platform: platformQuery }, dispatch);
+        generatePlatformToken({ code, type: type, platform: platformQuery }, dispatch);
         // window.open("", "_self").close();
         window.history.pushState({}, null, "/convert");
       }

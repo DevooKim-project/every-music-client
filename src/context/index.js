@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const initialState = {
   isLoggedIn: false,
-  tokenPlatform: null,
+  platformToken: null,
   payload: null,
   accessToken: null,
   error: false,
@@ -24,7 +24,7 @@ const reducer = (state, action) => {
     case "TOKEN_SUCCESS":
       return {
         ...state,
-        tokenPlatform: action.platform,
+        platformToken: action.platform,
       };
 
     case "LOGIN_FAIL":

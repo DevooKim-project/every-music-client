@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Context } from "../context";
-import { authUri, hasPlatformToken, uploadPlaylist } from "../modules/actions";
+import { authUri, getPlatformToken, refreshAccessToken, uploadPlaylist } from "../modules/actions";
 import {
   convertPlaylist,
   getPlaylistFromPlatform,
@@ -11,7 +11,8 @@ import {
 const in30Minutes = 1 / 48;
 const cookiePath = "/convert";
 const confirmToken = (platform, callback) => {
-  hasPlatformToken(platform).then((response) => {
+  console.log(platform);
+  getPlatformToken(platform).then((response) => {
     console.log("confirm", platform, response);
     callback(response);
   });
@@ -20,26 +21,29 @@ const confirmToken = (platform, callback) => {
 //source/destination 선택
 const First = ({ data, setData, type }) => {
   /* 
-    1. 마운트하면서 쿠키를 확인한다.
-    1-1. 쿠키가 있으면 토큰이 존재하는지 확인한다.
-    1-1-1. 토큰이 있으면 setData(source: cookie)로 한다.
-    1-1-2. 토큰이 없으면 패스
-    1-2. 쿠키가 없으면 패스
-
-    2. source를 클릭하면 토큰을 확인한다.
-    2-1. 토큰이 있으면 setData(source: cookie)로 한다.
-    2-2. 토큰이 없으면 쿠키를 만들고 토큰을 가져온다. => 이 경우 새로고침이 된다.
+  1. 마운트하면서 쿠키를 확인한다.
+  1-1. 쿠키가 있으면 토큰이 존재하는지 확인한다.
+  1-1-1. 토큰이 있으면 setData(source: cookie)로 한다.
+  1-1-2. 토큰이 없으면 패스
+  1-2. 쿠키가 없으면 패스
+  
+  2. source를 클릭하면 토큰을 확인한다.
+  2-1. 토큰이 있으면 setData(source: cookie)로 한다.
+  2-2. 토큰이 없으면 쿠키를 만들고 토큰을 가져온다. => 이 경우 새로고침이 된다.
   */
   const {
     state: { tokenPlatform },
+    dispatch,
   } = useContext(Context);
+  const [refresh, setRefresh] = useState();
 
   useEffect(() => {
     const cookie = Cookies.get(type);
-    if (cookie) {
+    console.log("cookie", cookie);
+    if (cookie || refresh) {
       confirmToken(cookie, setDataCallback(cookie));
     }
-  }, [tokenPlatform]);
+  }, [tokenPlatform, refresh]);
 
   const setDataCallback = (platform) => (state) => {
     if (state) {
@@ -59,9 +63,14 @@ const First = ({ data, setData, type }) => {
 
   const getTokenCallback = (platform) => (state) => {
     Cookies.set(type, platform, { expires: in30Minutes, path: cookiePath });
-    if (state) {
+
+    if (state === "NOT_REQUIRED") {
       setDataCallback(platform)(state);
-    } else {
+    } else if (state === "REQUIRED_REFRESH_ACCESS_TOKEN") {
+      refreshAccessToken(platform, dispatch).then(() => {
+        setRefresh(platform);
+      });
+    } else if (state === "REQUIRED_OAUTH") {
       window.location = authUri(platform, "http://localhost:3000/convert", "token");
     }
   };
@@ -121,6 +130,7 @@ const Second = ({ data, setData }) => {
       console.log(response);
       setItems(response.playlists);
     });
+
     setIsActivePlaylistBtn(false);
   });
 
