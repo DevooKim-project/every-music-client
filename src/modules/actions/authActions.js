@@ -17,7 +17,8 @@ export const loginByPlatform = async (params, dispatch) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     console.log("loginByPlatform", accessToken);
 
-    dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
+    // dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
+    dispatch({ type: "LOGIN_SUCCESS", payload });
   } catch (error) {
     //verify실패
     //서버 에러
@@ -98,7 +99,8 @@ export const loginByToken = async (dispatch) => {
     const payload = jwt.verify(accessToken, process.env.REACT_APP_JWT_SECRET);
     console.log("loginByToken", accessToken);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-    dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
+    // dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
+    dispatch({ type: "LOGIN_SUCCESS", payload });
   } catch (error) {
     // dispatch({ type: "LOGIN_FAIL", message: error.data.message });
     console.log(error);
@@ -121,7 +123,8 @@ export const refreshTokenSilent = async (expiresIn, dispatch) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       console.log("refreshTokenSilent", accessToken);
 
-      dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
+      // dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
+      dispatch({ type: "LOGIN_SUCCESS", payload });
     } catch (error) {
       console.log(error);
       // dispatch({ type: "LOGIN_FAIL", message: error.data.message });

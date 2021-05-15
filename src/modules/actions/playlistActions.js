@@ -1,20 +1,23 @@
 import axios from "axios";
 
 //limit이 1미만이면 모든 도큐먼트를 요청한다.
-export const getPlaylistBoard = async (page = 0, limit = 0) => {
-  const options = {
-    method: "GET",
-    url: `/playlist`,
-    params: { page, limit },
+export const getPlaylistBoard =
+  (userId = undefined, page = 0, limit = 0) =>
+  async () => {
+    const options = {
+      method: "GET",
+      url: userId ? `/playlist/${userId}` : `/playlist`,
+      params: { page, limit },
+    };
+    try {
+      console.log("test");
+      const response = await axios(options);
+      console.log("getPlaylistBoard", response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
-  try {
-    const response = await axios(options);
-    console.log("getPlaylistBoard", response.data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 //limit이 1미만이면 모든 도큐먼트를 요청한다.
 export const getPlaylistBoardByUser = async (userId, page = 0, limit = 0) => {

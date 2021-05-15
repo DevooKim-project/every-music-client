@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Cookie from "js-cookie";
 
 import { loginByToken } from "../modules/actions";
@@ -11,55 +11,37 @@ import Header from "./Header";
 import Page from "./Page";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
+import Router from "../Router";
+import auth from "../auth";
 
 function App() {
-  const [refreshToken, setRefreshToken] = useState(Cookie.get("refreshToken"));
+  const refreshToken = Cookie.get("refreshToken");
   const {
-    state: { isLoggedIn },
+    state: { isLoggedIn, payload },
     dispatch,
   } = useContext(Context);
 
   config();
+  auth({ isLoggedIn, payload, dispatch, refreshToken });
 
-  useEffect(() => {
-    if (refreshToken) {
-      loginByToken(dispatch);
-    }
-  }, []);
+  if (refreshToken && !isLoggedIn) return null;
 
-  if (refreshToken && !isLoggedIn) {
-    console.log("로그인 중");
-    return <div>Loading...</div>;
-  }
+  // return (
+  //   <div>
+  //     <Router>
+  //       <Header />
+  //       <Page />
+  //       <Sidebar />
+  //       <Footer />
+  //     </Router>
+  //   </div>
+  // );
 
   return (
-    <div>
-      <Router>
-        <Header />
-        <Page />
-        <Sidebar />
-        <Footer />
-      </Router>
-    </div>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   );
 }
 
-export default React.memo(App);
-
-{
-  /* <Router>
-<AuthDispatch>
-   <Headers>
-     <Menu/>
-   </Headers>
-
-   <Content />
-
-   <Sidebar>
-     <Login> <Auth/> </Login> : <DashBoard/>
-   </Sidebar>
-
-   <Footer/>
- </AuthDispatch>
-</Router> */
-}
+export default App;

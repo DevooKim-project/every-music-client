@@ -3,8 +3,10 @@ import { Link, Route } from "react-router-dom";
 import { Context } from "../context";
 import { getPlaylistBoardByUser } from "../modules/actions";
 import { getLibrary } from "../modules/actions/userAction";
+import useAsync from "../modules/useAsync";
 import "./Board.css";
 import Track from "./Track";
+
 function Board({ playlist }) {
   return (
     <div>
@@ -26,6 +28,7 @@ export default function Library() {
     state: { payload },
   } = useContext(Context);
   const [library, setLibrary] = useState(new Map());
+  // const [state, refetch] = useAsync(getLibrary, []);
 
   useLayoutEffect(() => {
     getLibrary().then((response) => {
@@ -42,7 +45,7 @@ export default function Library() {
   }, []);
 
   if (!library.size) {
-    return <div>loading</div>;
+    return <div>No Contents</div>;
   }
 
   return (

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getTracks = async (playlistId) => {
+export const getTracks = (playlistId) => async () => {
   const options = {
     method: "GET",
     url: `/track/${playlistId}`,

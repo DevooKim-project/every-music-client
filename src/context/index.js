@@ -4,7 +4,7 @@ export const initialState = {
   isLoggedIn: false,
   platformToken: null,
   payload: null,
-  accessToken: null,
+  // accessToken: null,
   error: false,
   message: null,
 };
@@ -18,7 +18,7 @@ const reducer = (state, action) => {
         ...state,
         isLoggedIn: true,
         payload: action.payload,
-        accessToken: action.accessToken,
+        // accessToken: action.accessToken,
       };
 
     case "TOKEN_SUCCESS":

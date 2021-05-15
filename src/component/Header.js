@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect, useMemo, useReducer, useCallback } from "react";
+import React from "react";
 
-import { Context, Provider } from "../context";
 import "./Header.css";
 
 export default React.memo(function Header() {

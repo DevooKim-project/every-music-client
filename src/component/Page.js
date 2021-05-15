@@ -15,16 +15,6 @@ export default React.memo(function Page() {
       <Link to="/board">PlaylistBoard</Link>
       <div> </div>
       <Link to="/convert">Convert playlist</Link>
-
-      <Switch>
-        <Route exact path="/" render={() => <Main />} />
-        {/* <Route path="/convert/:level" render={() => <Convert />} /> */}
-        <Route exact path="/convert" render={() => <Convert />} />
-        <Route path="/board/:id" render={() => <Playlist />} />
-        <Route exact path="/board" render={() => <Playlist />} />
-        <Route path="/track/:id" render={() => <Track />} />
-        <Route path="/library" render={() => <Library />} />
-      </Switch>
     </div>
   );
 });

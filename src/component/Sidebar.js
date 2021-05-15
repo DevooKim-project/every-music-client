@@ -25,17 +25,9 @@ function Info() {
 }
 
 function Sidebar() {
-  const [test, setTest] = useState(0);
-  const onClick = () => {
-    setTest((prev) => {
-      return prev + 1;
-    });
-  };
   return (
     <div>
       <h1>This is Sidebar</h1>
-      <button onClick={onClick}>Test</button>
-      <div>{test}</div>
       <Info />
     </div>
   );
