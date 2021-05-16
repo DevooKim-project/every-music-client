@@ -9,6 +9,8 @@ const Navigation = () => {
       <Link to="/board">PlaylistBoard</Link>
       <div></div>
       <Link to="/convert">Convert playlist</Link>
+      <div></div>
+      <Link to="/upload">upload playlist</Link>
     </nav>
   );
 };

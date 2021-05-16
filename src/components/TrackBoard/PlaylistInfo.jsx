@@ -1,67 +1,66 @@
-import React, { useState } from "react";
-import { useParams } from "react-router";
+import React, { useCallback, useEffect, useState } from "react";
 import { likePlaylist } from "../../modules/actions";
+import UpdateForm from "./UpdateForm";
 
-const Update = ({ playlist }) => {
+const Playlist = ({ playlist }) => {
   return (
     <div>
-      <h3>This is Edit</h3>
-    </div>
-  );
-};
-
-const Viewer = ({ playlist }) => {
-  return (
-    <div>
+      <div>-----playlist-----</div>
       <div>title - {playlist.title}</div>
       <div>uploader - {playlist.owner.nick}</div>
       <div>description - {playlist.description}</div>
+      <div>---------------------</div>
     </div>
   );
 };
 
-const PlaylistInfo = ({ playlistBody, likeRefetch }) => {
-  const { id } = useParams();
-  const { playlist, isMine, isLike } = playlistBody;
-  const [updateDisplay, setUpdateDisplay] = useState(false);
-  const [update, setUpdate] = useState(playlist);
-  console.log(isLike);
+const PlaylistInfo = ({ playlistBody, likeData, context }) => {
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [playlist, setPlaylist] = useState({ playlist: null, isMine: false, like: false });
+  const [like, setLike] = useState(false);
+  const [render, setRender] = useState(false);
+  const { id, isLoggedIn, payload } = context;
 
-  let updateButton;
-  let likeAndCancelButton;
+  useEffect(() => {
+    setPlaylist({
+      ...playlistBody,
+      isMine: payload ? playlistBody.owner.id === payload.id : false,
+    });
+    // setLike(likeData.isLike);
+    likeData ? setLike(likeData.isLike) : setLike(false);
+    setRender(true);
+  }, []);
 
-  const onDisplay = () => {
-    setUpdateDisplay((prev) => {
+  const openUpdateHandler = () => {
+    setOpenUpdate((prev) => {
       return !prev;
     });
-    setUpdate(playlist);
   };
 
-  const onLike = () => {
-    const state = !isLike ? "like" : "unlike";
+  const onLike = useCallback(() => {
+    if (!isLoggedIn) {
+      return alert("로그인 후 이용");
+    }
+    const state = !like ? "like" : "unlike";
     likePlaylist(id, state);
-    likeRefetch();
-    // setLike((prev) => {
-    // return !prev;
-    // });
-  };
+    setLike((prev) => {
+      return !prev;
+    });
+  }, [like]);
 
-  if (updateDisplay) {
-    updateButton = isMine ? <button onClick={updatePlaylist}>Save</button> : undefined;
-    likeAndCancelButton = <button onClick={onDisplay}>Cancel</button>;
-  }
-  if (!updateDisplay) {
-    updateButton = isMine ? <button onClick={onDisplay}>Edit</button> : undefined;
-    likeAndCancelButton = <button onClick={onLike}>{isLike ? "unlike" : "like"}</button>;
-  }
+  if (!render) return null;
 
   return (
     <div>
-      <div>------playlist--------</div>
-      {updateDisplay ? <Update /> : <Viewer playlist={playlist} />}
-      {updateButton}
-      {likeAndCancelButton}
-      <div>----------------------</div>
+      <Playlist playlist={playlist} />
+      <UpdateForm
+        playlist={playlist}
+        setPlaylist={setPlaylist}
+        openUpdate={openUpdate}
+        openUpdateHandler={openUpdateHandler}
+      />
+      {playlist.isMine && <button onClick={openUpdateHandler}>Edit</button>}
+      <button onClick={onLike}>{like ? "unlike" : "like"}</button>
     </div>
   );
 };
