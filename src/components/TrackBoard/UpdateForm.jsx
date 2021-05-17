@@ -35,7 +35,8 @@ const UpdateForm = ({ playlist, setPlaylist, openUpdate, openUpdateHandler }) =>
     <>
       <Modal
         open={openUpdate}
-        save={updatePlaylistHandler}
+        successHandler={updatePlaylistHandler}
+        successText={"save"}
         close={openUpdateHandler}
         header="Update Playlist"
       >
