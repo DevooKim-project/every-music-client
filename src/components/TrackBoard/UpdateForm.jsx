@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { updatePlaylistOptions } from "../../modules/actions";
 import Modal from "../Common/Modal";
 
-const UpdateForm = ({ playlist, setPlaylist, openUpdate, openUpdateHandler }) => {
+const UpdateForm = ({ playlist, setPlaylist, openUpdate, updateModalHandler }) => {
   const [update, setUpdate] = useState(playlist);
   const { title, description, visible } = update;
 
@@ -13,6 +13,11 @@ const UpdateForm = ({ playlist, setPlaylist, openUpdate, openUpdateHandler }) =>
       });
       openUpdateHandler();
     });
+  };
+
+  const closeUpdateModal = () => {
+    setUpdate(playlist);
+    updateModalHandler();
   };
 
   const onChange = (e) => {
@@ -37,7 +42,7 @@ const UpdateForm = ({ playlist, setPlaylist, openUpdate, openUpdateHandler }) =>
         open={openUpdate}
         successHandler={updatePlaylistHandler}
         successText={"save"}
-        close={openUpdateHandler}
+        close={closeUpdateModal}
         header="Update Playlist"
       >
         <h3>This is Edit</h3>

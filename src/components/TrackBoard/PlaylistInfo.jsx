@@ -70,7 +70,7 @@ const PlaylistInfo = ({ playlistBody, likeData, context }) => {
         playlist={playlist}
         setPlaylist={setPlaylist}
         openUpdate={openUpdateModal}
-        openUpdateHandler={updateModalHandler}
+        updateModalHandler={updateModalHandler}
       />
       {playlist.isMine && <button onClick={updateModalHandler}>Edit</button>}
       {playlist.isMine && <button onClick={deleteModalHandler}>Delete</button>}
