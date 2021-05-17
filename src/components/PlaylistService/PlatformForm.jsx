@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-import { getPlatformToken, refreshAccessToken } from "../../modules/actions";
+import { authUri, getPlatformToken, refreshAccessToken } from "../../modules/actions";
 import { Context } from "../../context";
 import "./Convert.css";
 
