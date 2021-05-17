@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getPlaylistFromPlatform } from "../../modules/actions";
+import { catchError } from "../../modules/actions/errorActions";
 import useAsync from "../../modules/useAsync";
 
 const Form = ({ playlist, idx, checkedItems, checkedItemHandler }) => {
@@ -17,7 +18,7 @@ const Form = ({ playlist, idx, checkedItems, checkedItemHandler }) => {
   );
 };
 
-const PlaylistForm = ({ source, playlistHandler }) => {
+const PlaylistForm = ({ source, initPlatform, playlistHandler }) => {
   const fetchPlaylist = () => {
     return getPlaylistFromPlatform(source);
   };
@@ -25,6 +26,12 @@ const PlaylistForm = ({ source, playlistHandler }) => {
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [playlistState, refetchPlaylist] = useAsync(fetchPlaylist, [], true);
   const { loading, data: playlistData, error } = playlistState;
+
+  useEffect(() => {
+    if (error) {
+      catchError(error, initPlatform);
+    }
+  }, [error]);
 
   //playlist check box handler
   const checkedItemHandler = (id, isChecked) => {
@@ -38,7 +45,8 @@ const PlaylistForm = ({ source, playlistHandler }) => {
     setIsActiveTrackBtn(checkedItems.size);
   };
 
-  const checkedItemToPlaylist = () => {
+  const checkedItemToPlaylist = async () => {
+    await playlistHandler([]);
     const checkedPlaylists = [];
     checkedItems.forEach((idx) => {
       checkedPlaylists.push(playlistData.playlists[idx]);
@@ -48,7 +56,7 @@ const PlaylistForm = ({ source, playlistHandler }) => {
   };
 
   if (loading) return <div>로딩중</div>;
-  if (error) return <div>에러발생</div>;
+
   if (!playlistData)
     return <button onClick={refetchPlaylist}>플레이리스트 가져오기 / {source}</button>;
 

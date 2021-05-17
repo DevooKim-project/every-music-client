@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { convertPlaylist } from "../../modules/actions";
+import { catchError } from "../../modules/actions/errorActions";
 import useAsync from "../../modules/useAsync";
 
-const ConvertForm = ({ destination, playlists, tracks }) => {
+const ConvertForm = ({ destination, playlists, tracks, initPlatform }) => {
   const fetchConvert = () => {
     return convertPlaylist(destination, playlists, tracks);
   };
   const [convertState, convertRefetch] = useAsync(fetchConvert, [], true);
   const { loading, data: convertData, error } = convertState;
+
+  useEffect(() => {
+    if (error) {
+      catchError(error, initPlatform);
+    }
+  }, [error]);
 
   const goPlatformHandler = (platform, playlistId = undefined) => {
     let url;
@@ -21,10 +28,7 @@ const ConvertForm = ({ destination, playlists, tracks }) => {
   };
 
   if (loading) return <div>변환중</div>;
-  if (error) {
-    console.log(error);
-    return <div>에러발생</div>;
-  }
+  if (error) return <div>에러발생</div>;
 
   return (
     <div>

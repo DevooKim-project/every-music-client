@@ -67,7 +67,7 @@ const Convert = () => {
           {playlists.map((playlist) => (
             <p>{playlist.title}</p>
           ))}
-          <Result platform={platform} playlists={playlists} type={"convert"} />
+          <Result platform={platform} playlists={playlists} initPlatform={initPlatform} />
         </>
       )}
     </div>

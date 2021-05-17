@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorMessage } from "./errorActions";
 
 export const getPlaylistFromPlatform = async (platform) => {
   const options = {
@@ -11,7 +12,7 @@ export const getPlaylistFromPlatform = async (platform) => {
     console.log("getPlaylistFromPlatform", response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw Error(errorMessage(error));
   }
 };
 
@@ -26,7 +27,7 @@ export const getTrackFromPlatform = async (platform, playlists) => {
     console.log("getTrackFromPlatform", response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw Error(errorMessage(error));
   }
 };
 
@@ -42,6 +43,6 @@ export const convertPlaylist = async (platform, playlists, tracks) => {
     console.log("convertPlaylist", response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw Error(errorMessage(error));
   }
 };
