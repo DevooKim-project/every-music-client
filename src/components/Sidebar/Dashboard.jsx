@@ -6,7 +6,7 @@ import Modal from "../Common/Modal";
 import { signOut } from "../../modules/actions";
 
 const Dashboard = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openSignOutModal, setOpenSignOutModal] = useState(false);
   const {
     state: { payload },
   } = useContext(Context);
@@ -16,15 +16,15 @@ const Dashboard = () => {
     window.location = "/";
   };
 
-  const modalHandler = () => {
-    setOpenModal((prev) => {
+  const signOutModalHandler = () => {
+    setOpenSignOutModal((prev) => {
       return !prev;
     });
   };
 
   const signOutHandler = () => {
     signOut().then(() => {
-      modalHandler();
+      signOutModalHandler();
       window.location = "/";
     });
   };
@@ -33,13 +33,13 @@ const Dashboard = () => {
     <div>
       <p>유저: {payload.name}</p>
       <button onClick={logoutHandler}>로그아웃</button>
-      <button onClick={modalHandler}>회원탈퇴</button>
+      <button onClick={signOutModalHandler}>회원탈퇴</button>
       <Link to="/library">My Library</Link>
       <Modal
-        open={openModal}
+        open={openSignOutModal}
         successHandler={signOutHandler}
         successText={"회원탈퇴"}
-        close={modalHandler}
+        close={signOutModalHandler}
         header={"회원탈퇴"}
       >
         모든 정보(회원정보, 업로드한 플레이리스트)를 복구할 수 없습니다.

@@ -77,3 +77,17 @@ export const uploadPlaylist = async (playlists, tracks) => {
     console.log(error);
   }
 };
+
+export const deletePlaylist = async (playlistId) => {
+  const options = {
+    method: "DELETE",
+    url: `/playlist/${playlistId}`,
+  };
+
+  try {
+    await axios(options);
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};

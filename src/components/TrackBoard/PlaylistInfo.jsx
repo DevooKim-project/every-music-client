@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { likePlaylist } from "../../modules/actions";
+import { deletePlaylist, likePlaylist } from "../../modules/actions";
+import Modal from "../Common/Modal";
 import UpdateForm from "./UpdateForm";
 
 const Playlist = ({ playlist }) => {
@@ -15,7 +16,8 @@ const Playlist = ({ playlist }) => {
 };
 
 const PlaylistInfo = ({ playlistBody, likeData, context }) => {
-  const [openUpdate, setOpenUpdate] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [playlist, setPlaylist] = useState({ playlist: null, isMine: false, like: false });
   const [like, setLike] = useState(false);
   const [render, setRender] = useState(false);
@@ -31,10 +33,21 @@ const PlaylistInfo = ({ playlistBody, likeData, context }) => {
     setRender(true);
   }, []);
 
-  const openUpdateHandler = () => {
-    setOpenUpdate((prev) => {
+  const updateModalHandler = () => {
+    setOpenUpdateModal((prev) => {
       return !prev;
     });
+  };
+
+  const deleteModalHandler = () => {
+    setOpenDeleteModal((prev) => {
+      return !prev;
+    });
+  };
+
+  const deletePlaylistHandler = async () => {
+    await deletePlaylist(playlist.id);
+    window.history.back();
   };
 
   const onLike = useCallback(() => {
@@ -56,11 +69,21 @@ const PlaylistInfo = ({ playlistBody, likeData, context }) => {
       <UpdateForm
         playlist={playlist}
         setPlaylist={setPlaylist}
-        openUpdate={openUpdate}
-        openUpdateHandler={openUpdateHandler}
+        openUpdate={openUpdateModal}
+        openUpdateHandler={updateModalHandler}
       />
-      {playlist.isMine && <button onClick={openUpdateHandler}>Edit</button>}
+      {playlist.isMine && <button onClick={updateModalHandler}>Edit</button>}
+      {playlist.isMine && <button onClick={deleteModalHandler}>Delete</button>}
       <button onClick={onLike}>{like ? "unlike" : "like"}</button>
+      <Modal
+        open={openDeleteModal}
+        successHandler={deletePlaylistHandler}
+        successText={"Delete"}
+        close={deleteModalHandler}
+        header={"Delete Playlist"}
+      >
+        플레이리스트를 삭제합니다.
+      </Modal>
     </div>
   );
 };
