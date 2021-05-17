@@ -9,18 +9,22 @@ const in30Minutes = 1 / 48;
 const cookiePath = "/convert";
 
 const PlatformForm = ({ platform, platformHandler, type }) => {
-  const [refresh, setRefresh] = useState();
-  const {
-    state: { tokenPlatform },
-    dispatch,
-  } = useContext(Context);
+  const { dispatch } = useContext(Context);
+
+  useEffect(() => {
+    return () => {
+      console.log("remove");
+      Cookies.remove("source", { path: cookiePath });
+      Cookies.remove("destination", { path: cookiePath });
+    };
+  }, []);
 
   useEffect(() => {
     const cookie = Cookies.get(type);
-    if (cookie || refresh) {
+    if (cookie) {
       confirmToken(cookie, setDataCallback(cookie));
     }
-  }, [tokenPlatform, refresh]);
+  }, []);
 
   const confirmToken = (value, callback) => {
     getPlatformToken(value).then((response) => {
@@ -31,20 +35,14 @@ const PlatformForm = ({ platform, platformHandler, type }) => {
   const setDataCallback = (value) => (state) => {
     if (state) {
       platformHandler(value, type);
-      if (type === "destination") {
-        Cookies.remove("source", { path: cookiePath });
-        Cookies.remove("destination", { path: cookiePath });
-      }
     }
   };
 
   const getTokenCallback = (value) => (state) => {
     Cookies.set(type, value, { expires: in30Minutes, path: cookiePath });
-    if (state === "NOT_REQUIRED") {
-      setDataCallback(value)(state);
-    } else if (state === "REQUIRED_REFRESH_ACCESS_TOKEN") {
+    if (state === "NOT_REQUIRED" || state === "REQUIRED_REFRESH_ACCESS_TOKEN") {
       refreshAccessToken(value, dispatch).then(() => {
-        setRefresh(value);
+        confirmToken(value, setDataCallback(value));
       });
     } else if (state === "REQUIRED_OAUTH") {
       window.location = authUri(value, "http://localhost:3000/convert", "token");

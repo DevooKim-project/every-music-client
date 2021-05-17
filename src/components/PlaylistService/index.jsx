@@ -6,11 +6,16 @@ import "./Convert.css";
 import PlaylistForm from "./PlaylistForm";
 import Result from "./Result";
 
+const initData = {
+  source: null,
+  destination: null,
+};
+
 const Convert = () => {
   const {
     state: { isLoggedIn },
   } = useContext(Context);
-  const [platform, setPlatform] = useState({ source: null, destination: null });
+  const [platform, setPlatform] = useState(initData);
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
@@ -26,6 +31,10 @@ const Convert = () => {
     });
     setPlaylists([]);
   }, [platform.source]);
+
+  const initPlatform = () => {
+    setPlatform(initData);
+  };
 
   const platformHandler = (value, type) => {
     setPlatform((prev) => {
@@ -47,7 +56,11 @@ const Convert = () => {
         <PlatformForm platform={platform} platformHandler={platformHandler} type={"destination"} />
       )}
       {platform.destination && (
-        <PlaylistForm source={platform.source} playlistHandler={playlistHandler} />
+        <PlaylistForm
+          source={platform.source}
+          initPlatform={initPlatform}
+          playlistHandler={playlistHandler}
+        />
       )}
       {playlists.length !== 0 && (
         <>
