@@ -6,8 +6,8 @@ import useAsync from "../../modules/useAsync";
 import ConvertForm from "./ConvertForm";
 import UploadForm from "./UploadForm";
 
-const Result = ({ platform, playlists, initPlatform }) => {
-  const { source, destination } = platform;
+const Result = ({ selectedPlatform, playlists, initPlatform }) => {
+  const { source, destination } = selectedPlatform;
   const fetchTrack = () => {
     return getTrackFromPlatform(source, playlists);
   };

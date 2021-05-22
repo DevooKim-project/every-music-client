@@ -1,5 +1,5 @@
 export * from "./authActions";
-export * from "./authUrl";
+export * from "./authUri";
 export * from "./playlistActions";
 export * from "./trackActions";
 export * from "./convertActions";

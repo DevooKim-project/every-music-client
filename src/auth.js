@@ -31,7 +31,8 @@ const auth = ({ isLoggedIn, payload, dispatch }) => {
       }
       if (type === "token") {
         generatePlatformToken({ code, type, platform }, dispatch);
-        window.history.pushState({}, null, "/convert");
+        window.close();
+        // window.history.pushState({}, null, "/convert");
       }
     }
   }, [code]);

@@ -65,14 +65,14 @@ export const getPlatformToken = async (platform) => {
     } else {
       state = "NOT_REQUIRED";
     }
-    return state;
+    return { state, accessToken, refreshToken };
   } catch (error) {
     console.log(error);
     return false;
   }
 };
 
-export const refreshAccessToken = async (platform, dispatch) => {
+export const refreshPlatformAccessToken = async (platform) => {
   const options = {
     method: "POST",
     url: `/auth/${platform}/refresh`,
@@ -80,11 +80,10 @@ export const refreshAccessToken = async (platform, dispatch) => {
   try {
     console.log("refreshAccessToken");
     await axios(options);
-    dispatch({ type: "TOKEN_SUCCESS", platform });
+    return { state: true };
   } catch (error) {
-    // dispatch({ type: "TOKEN_FAIL", message: error.data.message });
     console.log(error);
-    dispatch({ type: "TOKEN_FAIL", message: error });
+    return { state: false };
   }
 };
 

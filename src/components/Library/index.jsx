@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Route } from "react-router";
 import { Link } from "react-router-dom";
-import { TrackBoard } from "..";
 import { Context } from "../../context";
 import { getPlaylistBoardByUser } from "../../modules/actions";
 import { getLibrary } from "../../modules/actions/userAction";
@@ -24,16 +22,23 @@ const Board = ({ playlist }) => {
 
 const Library = () => {
   const {
-    state: { payload },
+    state: { isLoggedIn, payload },
   } = useContext(Context);
   const [library, setLibrary] = useState(new Map());
   const fetchPlaylist = () => {
     return getPlaylistBoardByUser(payload.id);
   };
-  const [libraryState, libraryRefetch] = useAsync(getLibrary, []);
-  const [playlistState, playlistRefetch] = useAsync(fetchPlaylist, []);
+  const [libraryState, libraryRefetch] = useAsync(getLibrary, [], true);
+  const [playlistState, playlistRefetch] = useAsync(fetchPlaylist, [], true);
   const { loading: libraryLoading, data: libraryData, error: libraryError } = libraryState;
   const { loading: playlistLoading, data: playlistData, error: playlistError } = playlistState;
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      libraryRefetch();
+      playlistRefetch();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (libraryData && playlistData) {

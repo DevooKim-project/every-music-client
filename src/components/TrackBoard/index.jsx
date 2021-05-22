@@ -38,7 +38,7 @@ const Track = () => {
     if (isLoggedIn) {
       likeRefetch();
     }
-  }, []);
+  }, [isLoggedIn]);
 
   if (trackLoading || likeLoading) return <div>로딩중..</div>;
   if (trackError || likeError) return <div>에러 발생</div>;

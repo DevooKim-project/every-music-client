@@ -1,69 +1,53 @@
-import React, { useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import React from "react";
+import { authUri, getPlatformToken, refreshPlatformAccessToken } from "../../modules/actions";
 
-import { authUri, getPlatformToken, refreshAccessToken } from "../../modules/actions";
-import { Context } from "../../context";
-import "./Convert.css";
-
-const in30Minutes = 1 / 48;
-const cookiePath = "/convert";
-
-const PlatformForm = ({ platform, platformHandler, type }) => {
-  const { dispatch } = useContext(Context);
-
-  useEffect(() => {
-    return () => {
-      console.log("remove");
-      Cookies.remove("source", { path: cookiePath });
-      Cookies.remove("destination", { path: cookiePath });
-    };
-  }, []);
-
-  useEffect(() => {
-    const cookie = Cookies.get(type);
-    if (cookie) {
-      confirmToken(cookie, setDataCallback(cookie));
-    }
-  }, []);
-
-  const confirmToken = (value, callback) => {
-    getPlatformToken(value).then((response) => {
-      callback(response);
-    });
-  };
-
-  const setDataCallback = (value) => (state) => {
-    if (state) {
-      platformHandler(value, type);
+const PlatformForm = ({ selectedPlatform, platformHandler, type }) => {
+  const tokenHandler = async (state, platform) => {
+    console.log(state);
+    switch (state) {
+      case "NOT_REQUIRED":
+        platformHandler(platform, type);
+        return;
+      case "REQUIRED_REFRESH_ACCESS_TOKEN":
+        const response = await refreshPlatformAccessToken(platform);
+        if (response.state) {
+          platformHandler(platform, type);
+        }
+        return;
+      case "REQUIRED_OAUTH":
+        oauthHandler(platform);
+        return;
     }
   };
 
-  const getTokenCallback = (value) => (state) => {
-    Cookies.set(type, value, { expires: in30Minutes, path: cookiePath });
-    if (state === "NOT_REQUIRED" || state === "REQUIRED_REFRESH_ACCESS_TOKEN") {
-      refreshAccessToken(value, dispatch).then(() => {
-        confirmToken(value, setDataCallback(value));
-      });
-    } else if (state === "REQUIRED_OAUTH") {
-      window.location = authUri(value, "http://localhost:3000/convert", "token");
-    }
+  const oauthHandler = (platform) => {
+    const url = authUri(platform, "http://localhost:3000/convert", "token");
+    const win = window.open(url, "", "width=400, height=400");
+    const interval = setInterval(async () => {
+      if (win.closed) {
+        const response = await getPlatformToken(platform);
+        tokenHandler(response.state, platform);
+        clearInterval(interval);
+      }
+    }, [1000]);
   };
 
-  const activeBtnHandler = (value) => {
-    return platform[type] === value || platform["source"] === value; //소스에 선택되었거나 대상에 선택되었으면 비활성화
+  const activeBtnHandler = (platform) => {
+    return selectedPlatform[type] === platform || selectedPlatform["source"] === platform; //소스에 선택되었거나 대상에 선택되었으면 비활성화
   };
 
-  const onPlatform = (value) => {
-    confirmToken(value, getTokenCallback(value));
+  const onPlatform = async (platform) => {
+    const response = await getPlatformToken(platform);
+    await tokenHandler(response.state, platform);
   };
 
-  const onUpload = (value) => {
-    setDataCallback(value)(true);
+  const onUpload = (platform) => {
+    platformHandler(platform, type);
   };
 
   return (
     <div>
-      {type} : {platform[type]}
+      {type} : {selectedPlatform[type]}
       <button disabled={activeBtnHandler("spotify")} onClick={() => onPlatform("spotify")}>
         spotify
       </button>

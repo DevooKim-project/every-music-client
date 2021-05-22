@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Cookie from "js-cookie";
 import { Context } from "../../context";
 import { Link } from "react-router-dom";
 import Modal from "../Common/Modal";

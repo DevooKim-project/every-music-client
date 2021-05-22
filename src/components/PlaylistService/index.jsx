@@ -15,29 +15,30 @@ const Convert = () => {
   const {
     state: { isLoggedIn },
   } = useContext(Context);
-  const [platform, setPlatform] = useState(initData);
+  const [selectedPlatform, setSelectedPlatform] = useState(initData);
   const [playlists, setPlaylists] = useState([]);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      alert("로그인 필요");
-      window.history.back();
-    }
-  }, []);
+  //비로그인 시 안나오도록 변경
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     alert("로그인 필요");
+  //     window.history.back();
+  //   }
+  // }, [isLoggedIn]);
 
   useEffect(() => {
-    setPlatform((prev) => {
+    setSelectedPlatform((prev) => {
       return { source: prev.source };
     });
     setPlaylists([]);
-  }, [platform.source]);
+  }, [selectedPlatform.source]);
 
   const initPlatform = () => {
-    setPlatform(initData);
+    setSelectedPlatform(initData);
   };
 
   const platformHandler = (value, type) => {
-    setPlatform((prev) => {
+    setSelectedPlatform((prev) => {
       const obj = { ...prev };
       obj[type] = value;
       return obj;
@@ -51,13 +52,21 @@ const Convert = () => {
   return (
     <div>
       <h1>This is Convert</h1>
-      <PlatformForm platform={platform} platformHandler={platformHandler} type={"source"} />
-      {platform.source && (
-        <PlatformForm platform={platform} platformHandler={platformHandler} type={"destination"} />
+      <PlatformForm
+        selectedPlatform={selectedPlatform}
+        platformHandler={platformHandler}
+        type={"source"}
+      />
+      {selectedPlatform.source && (
+        <PlatformForm
+          selectedPlatform={selectedPlatform}
+          platformHandler={platformHandler}
+          type={"destination"}
+        />
       )}
-      {platform.destination && (
+      {selectedPlatform.destination && (
         <PlaylistForm
-          source={platform.source}
+          source={selectedPlatform.source}
           initPlatform={initPlatform}
           playlistHandler={playlistHandler}
         />
@@ -67,7 +76,11 @@ const Convert = () => {
           {playlists.map((playlist) => (
             <p>{playlist.title}</p>
           ))}
-          <Result platform={platform} playlists={playlists} initPlatform={initPlatform} />
+          <Result
+            selectedPlatform={selectedPlatform}
+            playlists={playlists}
+            initPlatform={initPlatform}
+          />
         </>
       )}
     </div>
