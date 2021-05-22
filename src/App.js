@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import { Context } from "./context";
@@ -9,18 +9,25 @@ import Router from "./Router";
 import auth from "./auth";
 
 function App() {
-  const {
-    state: { isLoggedIn, payload },
-    dispatch,
-  } = useContext(Context);
+  const [authConfig, setAuthConfig] = useState(false);
+  useEffect(() => {
+    config();
+  }, []);
 
-  config();
-  auth({ isLoggedIn, payload, dispatch });
+  const authConfigHandler = () => {
+    setAuthConfig(true);
+  };
+
+  auth(authConfigHandler);
 
   return (
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
+    <>
+      {authConfig && (
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      )}
+    </>
   );
 }
 

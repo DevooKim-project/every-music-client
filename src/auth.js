@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { Context } from "./context";
 
 import {
   generatePlatformToken,
@@ -7,14 +8,19 @@ import {
   refreshTokenSilent,
 } from "./modules/actions";
 
-const auth = ({ isLoggedIn, payload, dispatch }) => {
-  console.log("auth");
+const auth = (authConfigHandler) => {
+  const {
+    state: { isLoggedIn, payload },
+    dispatch,
+  } = useContext(Context);
   const code = new URLSearchParams(window.location.search).get("code");
   const platform = new URLSearchParams(window.location.search).get("platform");
   const type = new URLSearchParams(window.location.search).get("type");
 
   useEffect(() => {
-    loginByToken(dispatch);
+    loginByToken(dispatch).then(() => {
+      authConfigHandler();
+    });
   }, []);
 
   useEffect(() => {
