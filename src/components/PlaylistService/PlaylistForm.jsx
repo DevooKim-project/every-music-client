@@ -19,12 +19,13 @@ const Form = ({ playlist, idx, checkedItems, checkedItemHandler }) => {
 };
 
 const PlaylistForm = ({ source, initPlatform, playlistHandler }) => {
-  const fetchPlaylist = () => {
-    return getPlaylistFromPlatform(source);
-  };
   const [isActiveTrackBtn, setIsActiveTrackBtn] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
-  const [playlistState, refetchPlaylist] = useAsync(fetchPlaylist, [], true);
+  const [playlistState, refetchPlaylist] = useAsync(
+    () => getPlaylistFromPlatform(source),
+    [],
+    true
+  );
   const { loading, data: playlistData, error } = playlistState;
 
   useEffect(() => {

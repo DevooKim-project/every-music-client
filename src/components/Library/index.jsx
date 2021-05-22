@@ -25,11 +25,12 @@ const Library = () => {
     state: { isLoggedIn, payload },
   } = useContext(Context);
   const [library, setLibrary] = useState(new Map());
-  const fetchPlaylist = () => {
-    return getPlaylistBoardByUser(payload.id);
-  };
   const [libraryState, libraryRefetch] = useAsync(getLibrary, [], true);
-  const [playlistState, playlistRefetch] = useAsync(fetchPlaylist, [], true);
+  const [playlistState, playlistRefetch] = useAsync(
+    () => getPlaylistBoardByUser(payload.id),
+    [],
+    true
+  );
   const { loading: libraryLoading, data: libraryData, error: libraryError } = libraryState;
   const { loading: playlistLoading, data: playlistData, error: playlistError } = playlistState;
 

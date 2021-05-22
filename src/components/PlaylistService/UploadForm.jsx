@@ -3,10 +3,7 @@ import { uploadPlaylist } from "../../modules/actions";
 import useAsync from "../../modules/useAsync";
 
 const UploadForm = ({ playlists, tracks }) => {
-  const fetchUpload = () => {
-    return uploadPlaylist(playlists, tracks);
-  };
-  const [uploadState, uploadRefetch] = useAsync(fetchUpload, [], true);
+  const [uploadState, uploadRefetch] = useAsync(() => uploadPlaylist(playlists, tracks), [], true);
   const { loading, data: uploadData, error } = uploadState;
 
   const onClick = () => {

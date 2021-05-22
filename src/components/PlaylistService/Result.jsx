@@ -11,7 +11,7 @@ const Result = ({ selectedPlatform, playlists, initPlatform }) => {
   const fetchTrack = () => {
     return getTrackFromPlatform(source, playlists);
   };
-  const [trackState, trackRefetch] = useAsync(fetchTrack, []);
+  const [trackState, trackRefetch] = useAsync(() => getTrackFromPlatform(source, playlists), []);
   const { loading: trackLoading, data: trackData, error: trackError } = trackState;
 
   useEffect(() => {

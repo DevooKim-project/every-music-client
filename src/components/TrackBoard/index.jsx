@@ -22,15 +22,8 @@ const Track = () => {
     state: { isLoggedIn, payload },
   } = useContext(Context);
 
-  const fetchTrack = () => {
-    return getTracks(id);
-  };
-  const fetchLike = () => {
-    return getLibrary(id);
-  };
-
-  const [trackState, trackRefetch] = useAsync(fetchTrack, []);
-  const [likeState, likeRefetch] = useAsync(fetchLike, [], true);
+  const [trackState, trackRefetch] = useAsync(() => getTracks(id), []);
+  const [likeState, likeRefetch] = useAsync(() => getLibrary(id), [], true);
   const { loading: trackLoading, data: trackData, error: trackError } = trackState;
   const { loading: likeLoading, data: likeData, error: likeError } = likeState;
 

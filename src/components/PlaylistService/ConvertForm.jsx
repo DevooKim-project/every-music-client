@@ -4,10 +4,11 @@ import { catchError } from "../../modules/actions/errorActions";
 import useAsync from "../../modules/useAsync";
 
 const ConvertForm = ({ destination, playlists, tracks, initPlatform }) => {
-  const fetchConvert = () => {
-    return convertPlaylist(destination, playlists, tracks);
-  };
-  const [convertState, convertRefetch] = useAsync(fetchConvert, [], true);
+  const [convertState, convertRefetch] = useAsync(
+    () => convertPlaylist(destination, playlists, tracks),
+    [],
+    true
+  );
   const { loading, data: convertData, error } = convertState;
 
   useEffect(() => {
