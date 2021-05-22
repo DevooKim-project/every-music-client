@@ -7,16 +7,14 @@ import {
   refreshTokenSilent,
 } from "./modules/actions";
 
-const auth = ({ isLoggedIn, payload, dispatch, refreshToken }) => {
+const auth = ({ isLoggedIn, payload, dispatch }) => {
   console.log("auth");
   const code = new URLSearchParams(window.location.search).get("code");
   const platform = new URLSearchParams(window.location.search).get("platform");
   const type = new URLSearchParams(window.location.search).get("type");
 
   useEffect(() => {
-    if (refreshToken) {
-      loginByToken(dispatch);
-    }
+    loginByToken(dispatch);
   }, []);
 
   useEffect(() => {

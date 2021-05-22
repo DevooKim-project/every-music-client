@@ -108,6 +108,20 @@ export const loginByToken = async (dispatch) => {
   }
 };
 
+export const logout = async () => {
+  const options = {
+    method: "DELETE",
+    url: `/auth/logout`,
+  };
+  try {
+    console.log("logout");
+    await axios(options);
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const signOut = async () => {
   const options = {
     method: "DELETE",

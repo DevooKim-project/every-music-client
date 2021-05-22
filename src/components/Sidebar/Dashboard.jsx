@@ -3,7 +3,7 @@ import Cookie from "js-cookie";
 import { Context } from "../../context";
 import { Link } from "react-router-dom";
 import Modal from "../Common/Modal";
-import { signOut } from "../../modules/actions";
+import { logout, signOut } from "../../modules/actions";
 
 const Dashboard = () => {
   const [openSignOutModal, setOpenSignOutModal] = useState(false);
@@ -11,8 +11,8 @@ const Dashboard = () => {
     state: { payload },
   } = useContext(Context);
 
-  const logoutHandler = () => {
-    Cookie.remove("refreshToken");
+  const logoutHandler = async () => {
+    await logout();
     window.location = "/";
   };
 
