@@ -3,12 +3,13 @@ import jwt from "jsonwebtoken";
 import moment from "moment";
 
 export const loginByPlatform = async (params, dispatch) => {
-  const { code, type, platform } = params;
+  const { code, type, platform, redirectUrl } = params;
+  const redirectUri = `${redirectUrl}?platform=${platform}&type=${type}`;
 
   const options = {
     method: "POST",
     url: `/auth/${platform}/login`,
-    params: { code, type },
+    params: { code, redirectUri },
   };
   try {
     const response = await axios(options);
@@ -28,12 +29,12 @@ export const loginByPlatform = async (params, dispatch) => {
 };
 
 export const generatePlatformToken = async (params, dispatch) => {
-  const { code, type, platform } = params;
-
+  const { code, type, platform, redirectUrl } = params;
+  const redirectUri = `${redirectUrl}?platform=${platform}&type=${type}`;
   const options = {
     method: "POST",
     url: `/auth/${platform}/token`,
-    params: { code, type },
+    params: { code, redirectUri },
   };
   try {
     await axios(options);
@@ -54,7 +55,6 @@ export const getPlatformToken = async (platform) => {
   };
 
   try {
-    console.log("getPlatformToken");
     const response = await axios(options);
     const { accessToken, refreshToken } = response.data;
     let state;
@@ -65,6 +65,7 @@ export const getPlatformToken = async (platform) => {
     } else {
       state = "NOT_REQUIRED";
     }
+    console.log("getPlatformToken", state);
     return { state, accessToken, refreshToken };
   } catch (error) {
     console.log(error);

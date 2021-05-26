@@ -3,7 +3,8 @@ import { authUri } from "../../modules/actions";
 
 const Login = () => {
   const uriHandler = (e) => {
-    window.location = authUri(e.target.value, "http://localhost:3000", "login");
+    window.location = authUri(e.target.value, window.location.href, "login");
+    // authUri(e.target.value, window.location.href, "login");
   };
 
   return (

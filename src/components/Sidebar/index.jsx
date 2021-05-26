@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../context";
-import { generatePlatformToken, loginByPlatform } from "../../modules/actions";
 import Dashboard from "./Dashboard";
 import Login from "./Login";
 

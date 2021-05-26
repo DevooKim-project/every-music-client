@@ -13,7 +13,7 @@ const GoogleAuthParams = (redirectUri, type) => {
 
   const params = {
     client_id: process.env.REACT_APP_GOOGLE_ID,
-    redirect_uri: `${redirectUri}/?platform=google&type=${type}`,
+    redirect_uri: `${redirectUri}?platform=google&type=${type}`,
     response_type: "code",
     access_type: "offline",
     scope: scopes.join(" "),
@@ -24,6 +24,7 @@ const GoogleAuthParams = (redirectUri, type) => {
 };
 
 const SpotifyAuthParams = (redirectUri, type) => {
+  console.log(`${redirectUri}?platform=spotify&type=${type}`);
   const url = "https://accounts.spotify.com/authorize";
   const scopes = [
     "user-read-email",
@@ -35,7 +36,7 @@ const SpotifyAuthParams = (redirectUri, type) => {
   const params = {
     response_type: "code",
     client_id: process.env.REACT_APP_SPOTIFY_ID,
-    redirect_uri: `${redirectUri}/?platform=spotify&type=${type}`,
+    redirect_uri: `${redirectUri}?platform=spotify&type=${type}`,
     scope: scopes.join(" "),
   };
 
@@ -49,7 +50,7 @@ const KakaoAuthParams = (redirectUri, type) => {
 
   const params = {
     client_id: process.env.REACT_APP_KAKAO_ID,
-    redirect_uri: `${redirectUri}/?platform=kakao&type=${type}`,
+    redirect_uri: `${redirectUri}?platform=kakao&type=${type}`,
     response_type: "code",
     scope: scopes.join(","),
     // state: "", //CSRF 공격 보호를 위한 임의의 문자열
