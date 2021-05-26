@@ -20,9 +20,21 @@ const PlatformForm = ({ selectedPlatform, platformHandler, type }) => {
     }
   };
 
-  const oauthHandler = (platform) => {
-    const url = authUri(platform, "http://localhost:3000/convert", "token");
-    const win = window.open(url, "", "width=400, height=400");
+  const oauthHandler = async (platform) => {
+    // const url = authUri(platform, "http://localhost:3000/convert", "token");
+    // const win = window.open(url, "", "width=400, height=400");
+    const win = window.open();
+    const urlPromise = new Promise((resolve, reject) => {
+      const url = authUri(platform, "http://localhost:3000/convert", "token");
+      console.log(win);
+      resolve(url);
+    });
+
+    urlPromise.then((url) => {
+      console.log("test", win);
+      win.location = url;
+    });
+
     const interval = setInterval(async () => {
       if (win.closed) {
         const response = await getPlatformToken(platform);
