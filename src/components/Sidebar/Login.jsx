@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { authUri } from "../../modules/actions";
 
 const Login = () => {
   const uriHandler = (e) => {
-    window.location = authUri(e.target.value, window.location.href, "login");
-    // authUri(e.target.value, window.location.href, "login");
+    window.location = authUri(
+      e.target.value,
+      window.location.protocol + "//" + window.location.host + "/",
+      "login"
+    );
+    // authUri(e.target.value, window.location.protocol + "//" + window.location.host + "/", "login");
   };
 
   return (

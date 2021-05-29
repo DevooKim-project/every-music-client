@@ -1,14 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router";
-import {
-  Header,
-  Library,
-  Navigation,
-  PlaylistBoard,
-  Sidebar,
-  TrackBoard,
-  Convert,
-} from "./components";
+import { Header, Library, Navigation, PlaylistBoard, Sidebar, TrackBoard, Convert } from "./components";
 
 const Wrapper = ({ children }) => {
   return (
@@ -28,6 +20,9 @@ const Router = () => {
         <Wrapper>
           {/* <Main /> */}
           <h1>Main</h1>
+          <div>
+            <a href="http://localhost:5000/api/playlist">test</a>
+          </div>
         </Wrapper>
       </Route>
       <Route exact path="/convert">

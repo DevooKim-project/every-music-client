@@ -1,10 +1,10 @@
 import axios from "axios";
 
 //limit이 1미만이면 모든 도큐먼트를 요청한다.
-export const getPlaylistBoard = async (userId = undefined, page = 0, limit = 0) => {
+export const getPlaylistBoard = async (page = 0, limit = 0) => {
   const options = {
     method: "GET",
-    url: userId ? `/playlist/${userId}` : `/playlist`,
+    url: `/playlist`,
     params: { page, limit },
   };
   try {
