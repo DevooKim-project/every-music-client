@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context";
-import { getPlaylistBoardByUser } from "../../modules/actions";
+import { getPlaylistBoard } from "../../modules/actions";
 import { getLibrary } from "../../modules/actions/userAction";
 import useAsync from "../../modules/useAsync";
 
@@ -26,11 +26,7 @@ const Library = () => {
   } = useContext(Context);
   const [library, setLibrary] = useState(new Map());
   const [libraryState, libraryRefetch] = useAsync(getLibrary, [], true);
-  const [playlistState, playlistRefetch] = useAsync(
-    () => getPlaylistBoardByUser(payload.id),
-    [],
-    true
-  );
+  const [playlistState, playlistRefetch] = useAsync(() => getPlaylistBoard(payload.id), [], true);
   const { loading: libraryLoading, data: libraryData, error: libraryError } = libraryState;
   const { loading: playlistLoading, data: playlistData, error: playlistError } = playlistState;
 

@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Switch } from "react-router";
-import { Header, Library, Navigation, PlaylistBoard, Sidebar, TrackBoard, Convert } from "./components";
+import {
+  Header,
+  Library,
+  Navigation,
+  PlaylistBoard,
+  Sidebar,
+  TrackBoard,
+  Convert,
+} from "./components";
+import Pagination from "./components/Common/Paginate";
 
 const Wrapper = ({ children }) => {
   return (
@@ -18,11 +27,7 @@ const Router = () => {
     <Switch>
       <Route exact path="/">
         <Wrapper>
-          {/* <Main /> */}
           <h1>Main</h1>
-          <div>
-            <a href="http://localhost:5000/api/playlist">test</a>
-          </div>
         </Wrapper>
       </Route>
       <Route exact path="/convert">
