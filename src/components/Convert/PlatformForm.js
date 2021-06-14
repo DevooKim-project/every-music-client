@@ -1,12 +1,7 @@
 import React from "react";
 import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
 
-import {
-  authUri,
-  getPlatformToken,
-  getPlaylists,
-  refreshPlatformAccessToken,
-} from "../../modules/actions";
+import { authUri, getPlatformToken, refreshPlatformAccessToken } from "../../modules/actions";
 
 const useStyle = makeStyles((theme) => ({
   root: {

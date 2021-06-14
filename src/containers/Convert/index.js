@@ -8,7 +8,6 @@ const Convert = () => {
     state: { isLoggedIn },
   } = useContext(Context);
 
-  //비로그인 시 안나오도록 변경
   useEffect(() => {
     if (!isLoggedIn) {
       alert("로그인 필요");

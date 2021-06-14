@@ -42,8 +42,6 @@ const PlaylistBoard = () => {
   if (playlistError || likeError) return <div>에러 발생</div>;
   if (!playlistData || (isLoggedIn === true && !likeData)) return null;
 
-  console.log(playlistData.playlist, playlistData.tracks);
-
   return (
     <div>
       <div className="top">

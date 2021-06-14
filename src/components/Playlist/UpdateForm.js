@@ -18,24 +18,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    // alignItems: "center",
     margin: theme.spacing(1),
     marginRight: theme.spacing(3),
   },
   input: {
     margin: theme.spacing(1),
   },
-  button: {
-    // "&:hover": {
-    //   backgroundColor: "#5E62FF",
-    //   borderColor: "#5E62FF",
-    //   color: "white",
-    //   boxShadow: "none",
-    // },
-  },
 }));
 
-const UpdateForm = ({ playlist, playlistInfoHandler, openUpdate, updateModalHandler }) => {
+const UpdateForm = ({ playlist, playlistInfoHandler, openUpdate, updateDialogHandler }) => {
   const classes = useStyles();
   const [update, setUpdate] = useState(playlist);
   const { title, description, visible } = update;
@@ -43,13 +34,13 @@ const UpdateForm = ({ playlist, playlistInfoHandler, openUpdate, updateModalHand
   const updatePlaylistHandler = () => {
     updatePlaylistOptions(update).then((response) => {
       playlistInfoHandler(response.playlist);
-      updateModalHandler();
+      updateDialogHandler();
     });
   };
 
-  const closeUpdateModal = () => {
+  const closeUpdateDialog = () => {
     setUpdate(playlist);
-    updateModalHandler();
+    updateDialogHandler();
   };
 
   const onChange = (e) => {
@@ -69,7 +60,7 @@ const UpdateForm = ({ playlist, playlistInfoHandler, openUpdate, updateModalHand
   };
 
   return (
-    <Dialog open={openUpdate} onClose={closeUpdateModal} fullWidth={true} maxWidth={"sm"}>
+    <Dialog open={openUpdate} onClose={closeUpdateDialog} fullWidth={true} maxWidth={"sm"}>
       <DialogTitle>정보 수정</DialogTitle>
       <div className={classes.form}>
         <TextField
@@ -108,10 +99,8 @@ const UpdateForm = ({ playlist, playlistInfoHandler, openUpdate, updateModalHand
       </div>
 
       <DialogActions>
-        <Button className={classes.button} onClick={updatePlaylistHandler}>
-          save
-        </Button>
-        <Button className={classes.button} color="secondary" onClick={closeUpdateModal}>
+        <Button onClick={updatePlaylistHandler}>save</Button>
+        <Button color="secondary" onClick={closeUpdateDialog}>
           cancel
         </Button>
       </DialogActions>

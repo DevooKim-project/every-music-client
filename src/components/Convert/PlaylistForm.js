@@ -50,7 +50,6 @@ const useStyle = makeStyles((theme) => ({
     width: "100%",
     overflowY: "scroll",
     overflowX: "hidden",
-    // margin: theme.spacing(1),
     padding: theme.spacing(1),
     [theme.breakpoints.up("md")]: {
       height: "70vh",
@@ -91,7 +90,6 @@ const useStyle = makeStyles((theme) => ({
 
 const buttonProps = {
   variant: "contained",
-  // color: "primary",
   size: "small",
 };
 

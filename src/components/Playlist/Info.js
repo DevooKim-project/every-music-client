@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Avatar, Box, Typography } from "@material-ui/core";
 
-import NoImage from "../Common/noimage.png";
+import NoImage from "../../Images/noimage.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     fontSize: "1.2rem",
-    // backgroundColor: "grey",
     textAlign: "left",
     padding: "0.5rem",
     color: "white",
@@ -65,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
     },
     background: "#8BAAE8",
     fontWeight: "500",
-    // color: "#753E9C",
   },
   title: {
     fontWeight: "bold",

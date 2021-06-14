@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-const MoreButton = ({ updateModalHandler, deleteModalHandler }) => {
+const MoreButton = ({ updateDialogHandler, deleteDialogHandler }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -15,10 +15,10 @@ const MoreButton = ({ updateModalHandler, deleteModalHandler }) => {
   const handleClose = (menu) => {
     setAnchorEl(null);
     if (menu === "Edit") {
-      updateModalHandler();
+      updateDialogHandler();
     }
     if (menu === "Delete") {
-      deleteModalHandler();
+      deleteDialogHandler();
     }
   };
   return (

@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
-import { FaExchangeAlt } from "react-icons/fa";
-import { SiApplemusic } from "react-icons/si";
-import { CgShare } from "react-icons/cg";
-import { BsFillPeopleFill, BsPeopleFill } from "react-icons/bs";
-import { IoIosHand } from "react-icons/io";
-
-import Banner from "../Common/banner.png";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -15,7 +8,6 @@ const useStyle = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    // background: "skyBlue",
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },

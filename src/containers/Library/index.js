@@ -35,7 +35,6 @@ const User = () => {
 
   if (libraryLoading || playlistLoading) return <div>로딩중</div>;
   if (libraryError || playlistError) return <div>에러발생</div>;
-  // if (!library.size) return null;
 
   return (
     <div>

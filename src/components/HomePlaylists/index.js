@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { CardMedia, Paper } from "@material-ui/core";
 
-import NoImage from "../Common/noimage.png";
+import NoImage from "../../Images/noimage.png";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,12 +15,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
 
-    // margin: theme.spacing(1),
     background: "pink",
   },
   gridWrapper: {
     width: "50%",
-    // height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

@@ -2,13 +2,11 @@ import React, { useLayoutEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
-import NoImage from "../Common/noimage.png";
+import NoImage from "../../Images/noimage.png";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "row",
-    // paddingTop: theme.spacing(0.75),
-    // paddingBottom: theme.spacing(0.75),
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderBottom: "1px black solid",
@@ -20,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   },
   thumbnail: {
     width: 70,
-    // height: 70,
   },
   imageSpotify: {
     width: "75px",
@@ -76,19 +73,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-// const YOUTUBE_CDN_HOST = "i.ytimg.com";
+
 const Info = ({ track, measure }) => {
   const classes = useStyles();
-  // const [isYoutube, setIsYoutube] = useState(false);
-  // useLayoutEffect(() => {
-  //   const thumbnail = track.thumbnail.split("/")[2];
-  //   setIsYoutube(thumbnail === YOUTUBE_CDN_HOST ? true : false);
-  // }, []);
+
   return (
     <Box className={classes.root}>
       <div className={classes.thumbnailWrapper}>
         <img
-          // className={isYoutube ? classes.imageYoutube : classes.imageSpotify}
           className={classes.thumbnail}
           src={track.thumbnail}
           onError={(e) => {

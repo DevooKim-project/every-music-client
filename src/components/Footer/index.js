@@ -1,8 +1,7 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React from "react";
 
-import Banner from "../Common/banner.png";
-import Logo from "../Common/logo.png";
+import Logo from "../../Images/logo.png";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -20,7 +19,6 @@ const useStyle = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginBottom: theme.spacing(1),
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
@@ -29,7 +27,6 @@ const useStyle = makeStyles((theme) => ({
     maxWidth: 40,
     [theme.breakpoints.down("sm")]: {
       maxWidth: 30,
-      // maxHeight: 75,
     },
   },
   button: {
@@ -55,7 +52,6 @@ const Footer = () => {
         <div className={classes.footer}>
           <div>
             <a href={`${window.location.protocol}//${window.location.host}`}>
-              {/* <img className={classes.img} src={Banner} alt="" /> */}
               <img className={classes.img} src={Logo} alt="" />
             </a>
           </div>

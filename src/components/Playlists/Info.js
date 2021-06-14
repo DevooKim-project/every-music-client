@@ -5,7 +5,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Paper from "@material-ui/core/Paper";
 
-import NoImage from "../Common/noimage.png";
+import NoImage from "../../Images/noimage.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#363230",
     color: "white",
     fontWeight: 600,
-    // height: "100%",
   },
   content: {
     marginTop: theme.spacing(1),

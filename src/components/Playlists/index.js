@@ -33,11 +33,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-around",
     overflow: "hidden",
-    // padding: theme.spacing(2),
     background: "#EBEBEB",
   },
   gridList: {
-    // paddingTop: theme.spacing(1),
     width: "100%",
     height: "100%",
     [theme.breakpoints.down("xs")]: {

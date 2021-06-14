@@ -8,7 +8,6 @@ import auth from "../../auth";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
-// buttonKeyColor: "#DDE88B"
 const theme = createMuiTheme({
   breakpoints: {
     values: {
@@ -24,7 +23,6 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "0 auto",
-    // background: "pink",
   },
 }));
 
@@ -44,7 +42,6 @@ function App() {
   return (
     <div className={classes.root}>
       <MuiThemeProvider theme={theme}>
-        {/* <CssBaseline /> */}
         {authConfig && (
           <BrowserRouter>
             <Header />

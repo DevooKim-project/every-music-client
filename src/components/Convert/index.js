@@ -9,11 +9,8 @@ const useStyle = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    // justifyContent: "flex-start",
     alignItems: "center",
-    // padding: theme.spacing(1),
     paddingTop: theme.spacing(1),
-    // background: "#EBEBEB",
   },
 }));
 

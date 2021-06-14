@@ -8,11 +8,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import { IconButton, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 
 import { authUri } from "../../modules/actions";
-import SpotifyIcon from "../Common/Spotify_Icon.png";
-import SpotifyIconWhite from "../Common/Spotify_Icon_white.png";
-import YoutubeIcon from "../Common/Youtube_Icon.png";
-import YoutubeIconBlack from "../Common/Youtube_Icon_black.png";
-import KakaoIcon from "../Common/Kakao_Icon.png";
+import SpotifyIcon from "../../Images/Spotify_Icon.png";
+import SpotifyIconWhite from "../../Images/Spotify_Icon_white.png";
+import YoutubeIcon from "../../Images/Youtube_Icon.png";
+import YoutubeIconBlack from "../../Images/Youtube_Icon_black.png";
+import KakaoIcon from "../../Images/Kakao_Icon.png";
 
 const useStyles = makeStyles((theme) => ({
   login: {

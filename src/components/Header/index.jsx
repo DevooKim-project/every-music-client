@@ -5,8 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 
-import Banner from "../Common/banner.png";
-import Logo from "../Common/logo.png";
+import Logo from "../../Images/logo.png";
 import Navigation from "../Navigation";
 import User from "../User";
 import { Context } from "../../context";
@@ -47,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: "650px",
       flexDirection: "column",
       alignItems: "stretch",
-      // paddingBottom: theme.spacing(0),
     },
   },
   logo: {
@@ -66,10 +64,8 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     maxWidth: 50,
-    // maxHeight: 150,
     [theme.breakpoints.down("sm")]: {
       maxWidth: 30,
-      // maxHeight: 75,
     },
     display: "block",
   },
@@ -116,14 +112,12 @@ const Header = (props) => {
   } = useContext(Context);
   return (
     <Fragment>
-      {/* <CssBaseline /> */}
       <ElevationScroll {...props}>
         <AppBar className={classes.appBar}>
           <div className={classes.sectionDesktop}>
             <div className={classes.toolbar}>
               <div className={classes.logo}>
                 <a href={`${window.location.protocol}//${window.location.host}`}>
-                  {/* <img className={classes.img} src={Banner} alt="" /> */}
                   <img className={classes.img} src={Logo} alt="" />
                 </a>
               </div>
@@ -140,7 +134,6 @@ const Header = (props) => {
               <div className={classes.mobileTop}>
                 <div className={classes.logo}>
                   <a href={`${window.location.protocol}//${window.location.host}`}>
-                    {/* <img className={classes.img} src={Banner} alt="" /> */}
                     <img className={classes.img} src={Logo} alt="" />
                   </a>
                 </div>

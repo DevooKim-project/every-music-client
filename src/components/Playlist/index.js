@@ -1,9 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { Button, Dialog, DialogActions, DialogTitle, Typography } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
 import { BsCloudDownload } from "react-icons/bs";
 import { RiHeadphoneLine } from "react-icons/ri";
 
@@ -11,15 +11,13 @@ import Info from "./Info";
 import MoreButton from "./MoreButton";
 import UpdateForm from "./UpdateForm";
 import { authUri, deletePlaylist, likePlaylist } from "../../modules/actions";
-import SpotifyIcon from "../Common/Spotify_Icon.png";
-import YoutubeIcon from "../Common/Youtube_Icon.png";
+import SpotifyIcon from "../../Images/Spotify_Icon.png";
+import YoutubeIcon from "../../Images/Youtube_Icon.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       marginTop: theme.spacing(2),
-      // width: theme.spacing(16),
-      // height: theme.spacing(16),
     },
   },
   buttons: {
@@ -65,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
 const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
   const classes = useStyles();
   const { id, isLoggedIn, payload } = context;
-  const [openUpdateModal, setOpenUpdateModal] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [playlistInfo, setPlaylistInfo] = useState(playlist);
   const [spotifyDisable, setSpotifyDisable] = useState(false);
   const [youtubeDisable, setYoutubeDisable] = useState(false);
@@ -90,14 +88,14 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
     });
   };
 
-  const updateModalHandler = () => {
-    setOpenUpdateModal((prev) => {
+  const updateDialogHandler = () => {
+    setOpenUpdateDialog((prev) => {
       return !prev;
     });
   };
 
-  const deleteModalHandler = () => {
-    setOpenDeleteModal((prev) => {
+  const deleteDialogHandler = () => {
+    setOpenDeleteDialog((prev) => {
       return !prev;
     });
   };
@@ -168,8 +166,8 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
 
             {isMine && (
               <MoreButton
-                updateModalHandler={updateModalHandler}
-                deleteModalHandler={deleteModalHandler}
+                updateDialogHandler={updateDialogHandler}
+                deleteDialogHandler={deleteDialogHandler}
               />
             )}
           </div>
@@ -187,7 +185,6 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
                   onClick={() => {
                     onClickConvert("spotify", spotifyDisable);
                   }}
-                  // disabled={spotifyDisable}
                 >
                   <img className={classes.icon} src={SpotifyIcon} />
                 </IconButton>
@@ -195,7 +192,6 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
                   onClick={() => {
                     onClickConvert("google", youtubeDisable);
                   }}
-                  // disabled={youtubeDisable}
                 >
                   <img className={classes.icon} src={YoutubeIcon} />
                 </IconButton>
@@ -207,11 +203,16 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
       <UpdateForm
         playlist={playlistInfo}
         playlistInfoHandler={playlistInfoHandler}
-        openUpdate={openUpdateModal}
-        updateModalHandler={updateModalHandler}
+        openUpdate={openUpdateDialog}
+        updateDialogHandler={updateDialogHandler}
       />
 
-      <Dialog open={openDeleteModal} onClose={deleteModalHandler} fullWidth={true} maxWidth={"sm"}>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={deleteDialogHandler}
+        fullWidth={true}
+        maxWidth={"sm"}
+      >
         <DialogTitle>플레이리스트 삭제</DialogTitle>
 
         <div style={{ textAlign: "center" }}>플레이리스트를 삭제합니다.</div>
@@ -219,7 +220,7 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
           <Button className={classes.button} color="secondary" onClick={deletePlaylistHandler}>
             delete
           </Button>
-          <Button className={classes.button} onClick={deleteModalHandler}>
+          <Button className={classes.button} onClick={deleteDialogHandler}>
             cancel
           </Button>
         </DialogActions>

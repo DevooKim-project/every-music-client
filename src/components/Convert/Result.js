@@ -7,7 +7,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListSubheader,
   makeStyles,
   Paper,
 } from "@material-ui/core";

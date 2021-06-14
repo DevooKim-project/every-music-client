@@ -87,7 +87,6 @@ export const uploadPlaylist = async (playlists, tracks) => {
     const response = await axios(options);
     console.log("uploadPlaylist", response.data);
     return response.data;
-    return response.data;
   } catch (error) {
     console.log(error);
   }

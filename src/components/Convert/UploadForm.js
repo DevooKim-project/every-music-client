@@ -10,8 +10,6 @@ const useStyle = makeStyles((theme) => ({
     alignItems: "center",
   },
   button: {
-    // margin: theme.spacing(1),
-    // color: "white",
     backgroundColor: "#A2C5E8",
     color: "black",
     "&:hover": {

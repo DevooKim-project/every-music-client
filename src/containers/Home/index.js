@@ -8,7 +8,6 @@ import Main from "../../components/Home";
 
 const useStyle = makeStyles((theme) => ({
   main: {
-    // height: "70vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

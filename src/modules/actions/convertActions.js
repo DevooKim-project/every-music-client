@@ -9,7 +9,6 @@ export const getPlaylistFromPlatform = async (platform) => {
 
   try {
     const response = await axios(options);
-    console.log("getPlaylistFromPlatform", response.data);
     return response.data;
   } catch (error) {
     throw Error(errorMessage(error));
@@ -24,7 +23,6 @@ export const getTrackFromPlatform = async (platform, playlists) => {
   };
   try {
     const response = await axios(options);
-    console.log("getTrackFromPlatform", response.data);
     return response.data;
   } catch (error) {
     throw Error(errorMessage(error));
@@ -40,7 +38,6 @@ export const convertPlaylist = async (platform, playlists, tracks) => {
 
   try {
     const response = await axios(options);
-    console.log("convertPlaylist", response.data);
     return response.data;
   } catch (error) {
     throw Error(errorMessage(error));
