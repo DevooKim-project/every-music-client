@@ -42,7 +42,6 @@ const auth = (authConfigHandler) => {
           window.location.protocol + "//" + window.location.host + window.location.pathname;
         generatePlatformToken({ code, type, platform, redirectUrl: currentURL }, dispatch);
         window.close();
-        // window.history.pushState({}, null, "/convert");
       }
     }
   }, [code]);

@@ -6,13 +6,9 @@ export const getPlaylist = async (playlistId) => {
     method: "GET",
     url: `/playlist/${playlistId}`,
   };
-  try {
-    const response = await axios(options);
-    console.log("getTrack", response.data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+
+  const response = await axios(options);
+  return response.data;
 };
 
 //limit이 1미만이면 모든 도큐먼트를 요청한다.
@@ -23,13 +19,10 @@ export const getPlaylists = async (page = 0, limit = 0, sort = undefined) => {
     url: `/playlist`,
     params: { page, limit, sort },
   };
-  try {
-    const response = await axios(options);
-    console.log("getPlaylists", response.data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+
+  const response = await axios(options);
+
+  return response.data;
 };
 
 export const getPlaylistsByUser = async (userId, page = 0, limit = 0, sort = undefined) => {
@@ -38,13 +31,10 @@ export const getPlaylistsByUser = async (userId, page = 0, limit = 0, sort = und
     url: `/playlist/user/${userId}`,
     params: { page, limit, sort },
   };
-  try {
-    const response = await axios(options);
-    console.log("getPlaylists", response.data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+
+  const response = await axios(options);
+
+  return response.data;
 };
 
 export const likePlaylist = async (playlistId, state) => {
@@ -52,13 +42,9 @@ export const likePlaylist = async (playlistId, state) => {
     method: "PUT",
     url: `/playlist/like/${playlistId}/${state}`,
   };
-  try {
-    const response = await axios(options); //NO_CONTENT
-    console.log("likePlaylist");
-    return;
-  } catch (error) {
-    console.log(error);
-  }
+
+  await axios(options); //NO_CONTENT
+  return;
 };
 
 export const updatePlaylistOptions = async (playlist) => {
@@ -67,13 +53,10 @@ export const updatePlaylistOptions = async (playlist) => {
     url: `/playlist/${playlist.id}`,
     data: { ...playlist },
   };
-  try {
-    const response = await axios(options);
-    console.log("updatePlaylistOptions", response.data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+
+  const response = await axios(options);
+
+  return response.data;
 };
 
 export const uploadPlaylist = async (playlists, tracks) => {
@@ -83,13 +66,9 @@ export const uploadPlaylist = async (playlists, tracks) => {
     data: { playlists, tracks },
   };
 
-  try {
-    const response = await axios(options);
-    console.log("uploadPlaylist", response.data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await axios(options);
+
+  return response.data;
 };
 
 export const deletePlaylist = async (playlistId) => {
@@ -98,10 +77,6 @@ export const deletePlaylist = async (playlistId) => {
     url: `/playlist/${playlistId}`,
   };
 
-  try {
-    await axios(options);
-    return;
-  } catch (error) {
-    console.log(error);
-  }
+  await axios(options);
+  return;
 };
