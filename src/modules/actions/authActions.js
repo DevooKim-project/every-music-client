@@ -145,18 +145,16 @@ export const refreshTokenSilent = async (expiresIn, dispatch) => {
   console.log("refreshSilent");
   const interval = setInterval(async () => {
     try {
-      console.log("exp", expiresIn);
+      console.log("exp", expiresIn, (expiresIn - moment().unix() - 60) * 1000);
       const response = await axios(options);
       const { accessToken } = response.data;
       const payload = jwt.verify(accessToken, process.env.REACT_APP_JWT_SECRET);
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       console.log("refreshTokenSilent", accessToken);
 
-      // dispatch({ type: "LOGIN_SUCCESS", payload, accessToken });
       dispatch({ type: "LOGIN_SUCCESS", payload });
     } catch (error) {
       console.log(error);
-      // dispatch({ type: "LOGIN_FAIL", message: error.data.message });
       console.log(error);
       dispatch({ type: "LOGIN_FAIL", message: error.data });
     }

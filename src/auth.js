@@ -25,9 +25,10 @@ const auth = (authConfigHandler) => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      console.log(payload);
       refreshTokenSilent(payload.exp, dispatch);
     }
-  }, [payload]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (code) {
