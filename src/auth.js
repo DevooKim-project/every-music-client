@@ -32,15 +32,15 @@ const auth = (authConfigHandler) => {
   useEffect(() => {
     if (code) {
       if (type === "login") {
-        const currentURL =
+        const currentUrl =
           window.location.protocol + "//" + window.location.host + window.location.pathname;
-        loginByPlatform({ code, type, platform, redirectUrl: currentURL }, dispatch);
+        loginByPlatform({ code, type, platform, redirectUrl: currentUrl }, dispatch);
         window.history.pushState({}, null, `/`);
       }
       if (type === "token") {
-        const currentURL =
+        const currentUrl =
           window.location.protocol + "//" + window.location.host + window.location.pathname;
-        generatePlatformToken({ code, type, platform, redirectUrl: currentURL }, dispatch);
+        generatePlatformToken({ code, type, platform, redirectUrl: currentUrl }, dispatch);
         window.close();
       }
     }

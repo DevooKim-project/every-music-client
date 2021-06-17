@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
 
-import { authUri, getPlatformToken, refreshPlatformAccessToken } from "../../modules/actions";
+import { getAuthUrl, getPlatformToken, refreshPlatformAccessToken } from "../../modules/actions";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -65,6 +65,10 @@ const buttonProps = {
   size: "small",
 };
 
+const fetchAuthUrl = async (type, platform, redirectUrl) => {
+  return await getAuthUrl({ type, platform, redirectUrl });
+};
+
 const PlatformForm = ({ selectedPlatform, platformHandler, type }) => {
   const classes = useStyle();
 
@@ -84,16 +88,17 @@ const PlatformForm = ({ selectedPlatform, platformHandler, type }) => {
       case "REQUIRED_OAUTH":
         if (!win.closed) {
           await oauthHandler(platform, win);
+        } else {
+          platformHandler(platform, type);
         }
         return;
     }
   };
 
   const oauthHandler = async (platform, win) => {
-    const currentURL =
+    const currentUrl =
       window.location.protocol + "//" + window.location.host + window.location.pathname;
-    const url = authUri(platform, currentURL, "token");
-    // const win = window.open(url, "", "width=400, height=700");
+    const url = await fetchAuthUrl("token", platform, currentUrl);
     win.location = url;
     const interval = setInterval(async () => {
       if (win.closed) {

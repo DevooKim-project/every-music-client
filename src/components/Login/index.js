@@ -4,10 +4,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import { IconButton, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
-import { authUri } from "../../modules/actions";
+import { getAuthUrl } from "../../modules/actions";
 import SpotifyIcon from "../../Images/Spotify_Icon.png";
 import SpotifyIconWhite from "../../Images/Spotify_Icon_white.png";
 import YoutubeIcon from "../../Images/Youtube_Icon.png";
@@ -84,6 +83,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const fetchAuthUrl = async (type, platform, redirectUrl) => {
+  return await getAuthUrl({ type, platform, redirectUrl });
+};
+
 const Login = ({ dialogOpen, handleDialog }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -94,12 +97,10 @@ const Login = ({ dialogOpen, handleDialog }) => {
     setMaxWidth(isDownMD ? "sm" : "md");
   }, [isDownMD]);
 
-  const uriHandler = (value) => {
-    window.location = authUri(
-      value,
-      window.location.protocol + "//" + window.location.host + "/",
-      "login"
-    );
+  const uriHandler = async (value) => {
+    const currentUrl = window.location.protocol + "//" + window.location.host + "/";
+    const url = await fetchAuthUrl("login", value, currentUrl);
+    window.location = url;
   };
   return (
     <div>

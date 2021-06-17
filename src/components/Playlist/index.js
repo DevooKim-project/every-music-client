@@ -10,7 +10,7 @@ import { RiHeadphoneLine } from "react-icons/ri";
 import Info from "./Info";
 import MoreButton from "./MoreButton";
 import UpdateForm from "./UpdateForm";
-import { authUri, deletePlaylist, likePlaylist } from "../../modules/actions";
+import { deletePlaylist, getAuthUrl, likePlaylist } from "../../modules/actions";
 import SpotifyIcon from "../../Images/Spotify_Icon.png";
 import YoutubeIcon from "../../Images/Youtube_Icon.png";
 
@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     width: "24px",
   },
 }));
+
+const fetchAuthUrl = async (type, platform, redirectUrl) => {
+  return await getAuthUrl({ type, platform, redirectUrl });
+};
 
 const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
   const classes = useStyles();
@@ -132,7 +136,7 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
     window.open(redirectUrl);
   };
 
-  const convertHandler = (platform) => {
+  const convertHandler = async (platform) => {
     if (platform === "spotify") {
       setSpotifyDisable(true);
     }
@@ -140,8 +144,8 @@ const Playlist = ({ playlist, isLike, context, convertPlaylist }) => {
       setYoutubeDisable(true);
     }
     const win = window.open("", "", "width=400, height=700");
-    const currentURL = window.location.protocol + "//" + window.location.host + "/convert";
-    const url = authUri(platform, currentURL, "token");
+    const currentUrl = window.location.protocol + "//" + window.location.host + "/convert";
+    const url = await fetchAuthUrl("token", platform, currentUrl);
     win.location = url;
     const interval = setInterval(async () => {
       if (win.closed) {

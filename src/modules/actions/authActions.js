@@ -2,13 +2,33 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import moment from "moment";
 
+import { errorMessage } from "./errorActions";
+
+export const getAuthUrl = async (params) => {
+  const { type, platform, redirectUrl } = params;
+  const redirectUri = `${redirectUrl}?platform=${platform}&type=${type}`;
+
+  const options = {
+    method: "GET",
+    url: `/auth/url/${platform}`,
+    params: { redirectUri },
+  };
+  try {
+    const response = await axios(options);
+    const { authorizationUrl } = response.data;
+    return authorizationUrl;
+  } catch (error) {
+    throw Error(errorMessage(error));
+  }
+};
+
 export const loginByPlatform = async (params, dispatch) => {
   const { code, type, platform, redirectUrl } = params;
   const redirectUri = `${redirectUrl}?platform=${platform}&type=${type}`;
 
   const options = {
     method: "POST",
-    url: `/auth/${platform}/login`,
+    url: `/auth/login/${platform}`,
     params: { code, redirectUri },
   };
   try {
@@ -28,7 +48,7 @@ export const generatePlatformToken = async (params, dispatch) => {
   const redirectUri = `${redirectUrl}?platform=${platform}&type=${type}`;
   const options = {
     method: "POST",
-    url: `/auth/${platform}/token`,
+    url: `/auth/${platform}`,
     params: { code, redirectUri },
   };
   try {
@@ -65,7 +85,7 @@ export const getPlatformToken = async (platform) => {
 export const refreshPlatformAccessToken = async (platform) => {
   const options = {
     method: "POST",
-    url: `/auth/${platform}/refresh`,
+    url: `/auth/refresh-token/${platform}`,
   };
   try {
     console.log("refreshAccessToken");
@@ -94,7 +114,7 @@ export const loginByToken = async (dispatch) => {
 
 export const logout = async () => {
   const options = {
-    method: "DELETE",
+    method: "POST",
     url: `/auth/logout`,
   };
 
@@ -115,7 +135,7 @@ export const signOut = async () => {
 export const refreshTokenSilent = async (expiresIn, dispatch) => {
   const options = {
     method: "POST",
-    url: `/auth/refresh`,
+    url: `/auth/refresh-token`,
   };
   const interval = setInterval(async () => {
     try {
