@@ -14,10 +14,10 @@ const useStyle = makeStyles((theme) => ({
     background: "#FFFAF8",
   },
   footer: {
-    width: "20%",
+    width: "40%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -29,7 +29,13 @@ const useStyle = makeStyles((theme) => ({
       maxWidth: 30,
     },
   },
+  a: {
+    flexGrow: 2,
+    textAlign: "center",
+  },
   button: {
+    flexGrow: 1,
+    textAlign: "center",
     color: "black",
     "&:hover": {
       backgroundColor: "#DDE88B",
@@ -37,26 +43,35 @@ const useStyle = makeStyles((theme) => ({
       color: "black",
       boxShadow: "none",
     },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.8rem",
+    },
   },
 }));
 
 const Footer = () => {
   const classes = useStyle();
 
-  const hrefHandler = () => {
-    window.open("https://github.com/DevooKim?tab=repositories");
+  const contactHandler = () => {
+    window.open("https://github.com/DevooKim/everymusic.devookim.com/issues");
+  };
+  const policyHandler = () => {
+    window.open(
+      "https://www.notion.so/Privacy-Policy-Every-Music-230f4b2be7264f61b9ec80f7bca2630d"
+    );
   };
   return (
     <>
       <div className={classes.root}>
         <div className={classes.footer}>
-          <div>
-            <a href={`${window.location.protocol}//${window.location.host}`}>
-              <img className={classes.img} src={Logo} alt="" />
-            </a>
-          </div>
-          <Button className={classes.button} onClick={hrefHandler}>
+          <a className={classes.a} href={`${window.location.protocol}//${window.location.host}`}>
+            <img className={classes.img} src={Logo} alt="" />
+          </a>
+          <Button className={classes.button} onClick={contactHandler}>
             contact
+          </Button>
+          <Button className={classes.button} onClick={policyHandler}>
+            privacy policy
           </Button>
         </div>
       </div>
